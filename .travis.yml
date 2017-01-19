@@ -6,4 +6,4 @@ deploy:
   provider: heroku
   app: agile-sierra-40800
   on:
-    repo: katieseo1/gradeBo
+    repo: katieseo1/gradeBook
