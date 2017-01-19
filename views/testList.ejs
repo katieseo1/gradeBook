@@ -1,0 +1,305 @@
+<!doctype html>
+<html>
+<head>
+    <title>Grade book</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css">
+
+    <link rel="stylesheet" href="/custom/simple-sidebar.css">
+<link rel="stylesheet" href="/custom/custom-nav.css">
+
+
+</head>
+
+<body>
+  <nav class="navbar" style="background:#ededed">
+          <div class="container" >
+              <!-- Brand and toggle get grouped for better mobile display -->
+              <div class="navbar-header" s>
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                      <span class="sr-only">Toggle navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="#" rel="home"><img src="/img/gradeBookBlack.png" style="max-height:50px; margin-top: -7px; margin-right: 2px;"> GradeBook</a>
+              </div>
+              <!-- Collect the nav links, forms, and other content for toggling -->
+              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                  <ul class="nav navbar-nav navbar-right main-nav">
+                      <li><a href="#services">Welcome</a></li>
+                      <li><a href="/Logout">Logout</a></li>
+                  </ul>
+              </div>
+              <!-- /.navbar-collapse -->
+          </div>
+          <!-- /.container-fluid -->
+      </nav>
+
+      <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+
+                <li>
+                    <a href="#">Test Statistic</a>
+                </li>
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#addStudent">Add Student</a>
+
+                </li>
+                <li>
+                    <a href="/addTest" >Add Test Score</a>
+
+                </li>
+
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+      		<div class="container-fluid">
+      			<div class="row">
+      				<div class="col-lg-12">
+      					<h1 class="text-center" style="color:grey">Test List</h1>
+
+                <% var testList=[]%>
+                <%for(var i=0; i < user.length; i++) { %>
+                   <%  if (user[i].local.grades){ %>
+                     <%    for (j=0; j < user[i].local.grades.length ; j++){ %>
+                       <li><a href="#"> <%= user[i].local.grades[j].testNumber + user[i].local.firstname %> </a></li>
+                        <% testList.push(user[i].local.grades[j].testNumber) %>
+                    <%  } %>
+                <% break} }%>
+
+                <% console.log (testList)%>
+
+                <table class="studentTable table table-striped" id="studentListDT">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Average Score</th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%for(var i=0; i < user.length; i++) { %>
+                    <tr>
+                      <td class="name"><%= user[i].local.firstname +" " +user[i].local.lastname  %></td>
+                      <%var total=0; for (var j=0; j < user[i].local.grades.length;j++) {%>
+                        <%total+=user[i].local.grades[j].testScore;%><%console.log(user[i].local.grades[j].testScore);%><%} %>
+                      <td><%= (total/user[i].local.grades.length).toFixed(2) %></td>
+                      <td><button class="btn btn-default js-student-progress" data-id='<%=user[i].id %>'><span class="fa fa-bar-chart-o"></span> Progress</button></td>
+                      <td><button class="btn btn-default js-student-edit" data-id='<%=user[i].id %>'><span class="fa fa-edit"></span> Edit</button></td>
+                      <td><button class="btn btn-default js-student-delete" data-id='<%=user[i].id %>'><span class="fa fa-trash-o"></span> Delete</button></td>
+                    </tr><%} %>
+                  </tbody>
+                </table>
+
+
+
+
+
+                <div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Test
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <%for(var i=0; i < user.length; i++) { %>
+       <%  if (user[i].local.grades){ %>
+         <%    for (j=0; j < user[i].local.grades.length ; j++){ %>
+           <li><a href="#"> <%= user[i].local.grades[j].testNumber + user[i].local.firstname %> </a></li>
+
+        <%  } %>
+    <% break} }%>
+  </ul>
+</div>
+      					<table class="studentTable table table-striped" id="studentListDT">
+      						<thead>
+      							<tr>
+      								<th>Name</th>
+      								<th>Average Score</th>
+      								<th></th>
+      								<th></th>
+      								<th></th>
+      							</tr>
+      						</thead>
+      						<tbody>
+      							<%for(var i=0; i < user.length; i++) { %>
+      							<tr>
+      								<td class="name"><%= user[i].local.firstname +" " +user[i].local.lastname  %></td>
+                      <%var total=0; for (var j=0; j < user[i].local.grades.length;j++) {%>
+                        <%total+=user[i].local.grades[j].testScore;%><%console.log(user[i].local.grades[j].testScore);%><%} %>
+      								<td><%= (total/user[i].local.grades.length).toFixed(2) %></td>
+      								<td><button class="btn btn-default js-student-progress" data-id='<%=user[i].id %>'><span class="fa fa-bar-chart-o"></span> Progress</button></td>
+      								<td><button class="btn btn-default js-student-edit" data-id='<%=user[i].id %>'><span class="fa fa-edit"></span> Edit</button></td>
+      								<td><button class="btn btn-default js-student-delete" data-id='<%=user[i].id %>'><span class="fa fa-trash-o"></span> Delete</button></td>
+      							</tr><%} %>
+      						</tbody>
+      					</table>
+      				</div>
+      			</div>
+      		</div>
+      	</div>
+
+
+    </div>
+
+</div>
+
+</body>
+
+<!-- Trigger the modal with a button -->
+
+<!-- Modal -->
+<div id="addStudent" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add Student</h4>
+      </div>
+      <div class="modal-body">
+        <form id="addStudentForm">
+          <div class="form-group">
+            <label>First Name</label> <input class="form-control" id="firstname" type="text">
+          </div>
+          <div class="form-group">
+            <label>Last Name</label> <input class="form-control" id="lastname" type="text">
+          </div>
+
+          <button class="btn btn-primary btn pull-right" type="submit">Submit</button>
+        </form>
+
+          </div>
+          <div class="modal-footer">
+          </div>
+      </div>
+      </div>
+  </div>
+
+
+<div class="modal fade" id="editInput" tabindex="-1" role="dialog"
+ aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <!-- Modal Header -->
+        <form class="form-horizontal" role="form" id="editPost">
+
+        <div class="modal-header">
+            <button type="button" class="close"
+               data-dismiss="modal">
+                   <span aria-hidden="true">&times;</span>
+                   <span class="sr-only">Close</span>
+            </button>
+            <h4 class="modal-title" id="editStudentLabel">
+                Edit Post
+            </h4>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body">
+              <div class="form-group">
+                <label  class="col-sm-2 control-label"
+                         id="editName">First Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control"
+                    name="editFirstName" id="editFirstName" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label"
+                      >Last Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control"
+                        name="editLastName" id="editLastName" />
+                </div>
+              </div>
+
+
+          </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+            <div class="form-group">
+              <div class="col-md-9 col-md-offset-3">
+                <div id="messagesEdit"></div>
+              </div>
+            </div>
+            <button  type="submit" id="editStudentBtn" class="btn btn-success " disabled=true>
+                Save
+            </button>
+        </div>
+      </form>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="progessChart" tabindex="-1" role="dialog"
+ aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <!-- Modal Header -->
+        <form class="form-horizontal" role="form" id="progress">
+
+        <div class="modal-header">
+            <button type="button" class="close"
+               data-dismiss="modal">
+                   <span aria-hidden="true">&times;</span>
+                   <span class="sr-only">Close</span>
+            </button>
+            <h4 class="modal-title" id="studentProgressLabel">
+                Progess chart
+            </h4>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body">
+
+          <div id="curve_chart" style="width: 900px; height: 500px"></div>
+
+
+          </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default"
+                    data-dismiss="modal">
+                        Close
+            </button>
+            <button id="editPost" type="submit" class="btn btn-success">
+                Edit
+            </button>
+        </div>
+      </form>
+    </div>
+</div>
+</div>
+
+<script src="/js/jquery.min.js">
+</script>
+<script src="/js/bootstrap.min.js">
+</script>
+<script src="/custom/client.js">
+</script>
+<!--<script src="js/jquery.dataTables.js"></script>-->
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css">
+
+<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/responsive/2.1.1/js/responsive.bootstrap.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js" type="text/javascript"></script>
+
+<!--<script src="/js/testList.js">-->
+<script>
+</script>
+</html>
