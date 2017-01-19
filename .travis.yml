@@ -1,10 +1,3 @@
 language: node_js
 node_js: node
 sudo: required
-deploy: fathomless-tor-48519
-  provider: heroku
-  api_key:
-    secure: IBoKhsGXgLe+kyW4bWSN+3t1uFdiaKTo4/r+1wNtiixiV7tADy2Ys2Ra+RchP3sn2OD2D8LnXdebipBCqItcnfDTu2r4v7sCZ2DN+jISf/3d/Js4Ddp6Kn7LD1+uFSgdd4XHSlbCJwSou1wJv9qXSkmJzWvgtVjtFlnJx8oXpnR8oejo9pFxzOl15wQHQkmDp+q61W3yAoeeIiRTjCVqMjDbCPgHRmw0NRDb1RbviJiRijab00n/6veaHrFqqnXvie0m5QX9WrmUS39jJCYwtkXNfasZx702mFstIFFGB1Gjd276My2xAPuF7pVmJX/3iW5w/jRVcKRnwJxVO8ZPJbEBZLWsm0f3m4anWIftd3zXAw4PLvhLVbh4tkZdkjeJaKheZrqkLGlz83IWvd37LLln9X6yw1U0vYa3f8h8QjFPdXmFsu/fI056CS53c8w5AKPEx0IU4nJ7Tw+4aIqAW18jXgpIsMLIOvb2zeozk90Xmxr1d/pxT1DnirEUavgfohdwtbU9JgdoQCxQ55hToB7SyxuldM/0iIUXWHDMUpCVZ2U3Zb/p4HfSIG8wQSy0Gdf+NNHrks6fj9SONL/5C2QIsNQIaTb9eVkNE8jVWnAjo5RjxWiX2jlp9QhMVV8p/O9imesDRxU39czyhC0NVeKBLZJeWxVkkTS+Ts1XEjU=
-  app: gradeBook
-  on:
-    repo: katieseo1/gradeBook
