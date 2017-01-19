@@ -1,6 +1,9 @@
 language: node_js
 node_js: node
-services:
-- mongodb
-deploy: agile-sierra-40800
-
+services: 
+ - mongodb
+deploy:
+  provider: heroku
+  app: agile-sierra-40800
+  on:
+    repo: katieseo1/gradeBo
