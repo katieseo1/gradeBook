@@ -1,5 +1,6 @@
 language: node_js
 node_js: node
+sudo: required
 deploy: fathomless-tor-48519
   provider: heroku
   api_key:
@@ -7,4 +8,3 @@ deploy: fathomless-tor-48519
   app: gradeBook
   on:
     repo: katieseo1/gradeBook
-sudo: required
