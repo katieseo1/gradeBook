@@ -7,4 +7,4 @@ deploy: fathomless-tor-48519
   app: gradeBook
   on:
     repo: katieseo1/gradeBook
-sudo:required
+sudo: required
