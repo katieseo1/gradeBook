@@ -37,7 +37,7 @@ function editStudent(id,lastname,firstname) {
 }
 
 function updateStudent(student) {
-	console.log(student);
+	//console.log(student);
 	$.ajax({
 		url: 'student/' + student.id,
 		method: 'PUT',

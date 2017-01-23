@@ -18,6 +18,7 @@ function statChart(id) {
 		success: function(data) {
 			document.getElementById('testStatLabel').innerHTML = " Stat for Test " + id;
 			drawTestChart(data);
+			console.log(data);
 		}
 	});
 }

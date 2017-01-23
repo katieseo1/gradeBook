@@ -1,5 +1,6 @@
 var LocalStrategy = require('passport-local').Strategy;
 var User = require('../app/models/user');
+var bcrypt = require('bcrypt-nodejs');
 
 //Session setup
 module.exports = function(passport) {
@@ -21,21 +22,26 @@ module.exports = function(passport) {
 	}, (req, email, password, callback) =>{
 		if (email) {
       email = email.toLowerCase();
+			password=password.trim();
     }
 		process.nextTick(function() {
 			User.findOne({
 				'local.email': email
 			}, (err, user) =>{
 				if (err){
+					console.log(err);
            return callback(err);
         }
 				if (!user){
+					console.log("no user");
            return callback(null, false, req.flash('loginMessage', 'No user found.'));
         }
-				if (!user.validPassword(password)) {
-          return callback(null, false, req.flash('loginMessage', ' Wrong password.'));
+				if (!bcrypt.compareSync(password, user.local.password)){
+					console.log("wrong password");
+        	return callback(null, false, req.flash('loginMessage', ' Wrong password.'));
         }
 				else {
+					console.log("Found Match");
           return callback(null, user);
         }
 			});

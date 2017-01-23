@@ -5,16 +5,15 @@ module.exports = function(app, passport) {
 
 	// Home page
 	app.get('/', function(req, res) {
+
 		res.render('index.ejs', {
 			message: req.flash('loginMessage')
 		});
 	});
 
 	// StudentList page
-	app.get('/studentList', isLoggedIn, function(req, res) {
-		//User.find().exec().then(user => {
+	app.get('/studentList' function(req, isLoggedIn, res) {
     User.find().where('local.usergroup').equals('student').exec().then(user => {
-
 			res.render('studentList.ejs', {
 				user: user
 			});
@@ -58,7 +57,7 @@ module.exports = function(app, passport) {
 		}, {
 			score: req.params.id
 		}).exec().then(tests => {
-			console.log(tests);
+			//console.log(tests);
 			res.json(tests)
 		}).catch(err => {
 			console.error(err);
@@ -70,7 +69,40 @@ module.exports = function(app, passport) {
 
 
 	//Test statistics
-	app.get('/testStat', isLoggedIn, (req, res) => {
+	app.get('/testStat2', isLoggedIn, (req, res) => {
+		var maxTstNumber=0;
+		User.find().where('local.usergroup').equals('student').exec().then(user => {
+			for (i=0; i<user.length ; i++){
+				if user.local.grade.length >maxTstNumber{
+					maxTstNumber=user.local.grade.length
+				}
+			}
+			console.log(maxTstNumber);
+			res.json({"a":"b"});
+			/*res.render('testStat2.ejs', {
+				user: user
+			});*/
+		}).catch(err => {
+			console.error(err);
+			res.status(500).json({
+				message: 'Internal server error'
+			});
+		});
+
+	});
+	//Test statistics
+	app.get('/testStat99', isLoggedIn, (req, res) => {
+		User.find().where('local.usergroup').equals('student').exec().then(user => {
+			for (i=0; i<user.length ; i++){
+				if user.local.grade.length >maxTstNumber{
+					maxTstNumber=user.local.grade.length;
+				}
+			}
+			console.log("=============+++++++====");
+
+			console.log(maxTstNumber);
+
+
 		TestScore.aggregate(
 			[{
 				$group: {
@@ -81,7 +113,7 @@ module.exports = function(app, passport) {
 				}
 			}]).exec().then(tests => {
 			res.render('testStat.ejs', {
-				tests: tests
+				tests: tests, maxTstNumber: maxTstNumber
 			});
 		}).catch(err => {
 			console.error(err);
@@ -127,13 +159,13 @@ module.exports = function(app, passport) {
 
   // Add new test scores in User and create new scores in TestScore collection
 	app.post('/addTestScore', isLoggedIn, (req, res) => {
-		console.log(req.body);
+		//console.log(req.body);
 		var testNumber = req.body[req.body.length - 2][1];
 		let toUpdate2 = {};
 		for (i = 0; i < req.body.length - 2; i++) {
 			toUpdate2 = {};
 			toUpdate2['local.grades'] = {
-				"testNumber": testNumber,
+				"testNumber": testNumber,ƒstat
 				"testScore": req.body[i][1]
 			};
 			//Add to user table
@@ -235,4 +267,5 @@ module.exports = function(app, passport) {
 function isLoggedIn(req, res, next) {
 	if (req.isAuthenticated()) return next();
 	res.redirect('/');
+
 }
