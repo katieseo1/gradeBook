@@ -9,7 +9,16 @@ var morgan       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
-var configDB = require('./config/database.js');
+
+const  dotenv = require('dotenv').load();
+
+//dotenv.config();
+
+//var dev_url = process.env.config.mongoURI.development;
+const DATABASE_URL = process.env.dev;
+
+
+//var configDB = require('./config/database.js');
 
 //mongoose.connect('mongodb://tst:abc@ds023932.mlab.com:23932/capstone_seo');
 require('./config/passport')(passport); // pass passport for configuration
@@ -42,7 +51,8 @@ require('./app/routes.js')(app, passport);
 
 
 // this function connects to our database, then starts the server
-function runServer(databaseUrl=configDB.mongoURI.development) {
+function runServer(databaseUrl) {
+  
   return new Promise((resolve, reject) => {
     mongoose.connect(databaseUrl, err => {
       if (err) {
@@ -54,8 +64,6 @@ function runServer(databaseUrl=configDB.mongoURI.development) {
         if(mongoose.connection.readyState==1){
         console.log("DB connected");
       }
-        console.log(databaseUrl);
-
         console.log(`Your app is listening on port ${port}`);
         resolve();
       })

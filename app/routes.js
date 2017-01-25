@@ -1,7 +1,7 @@
 let User = require('../app/models/user');
 let TestScore = require('../app/models/testscore');
-
-module.exports = function(app, passport) {
+const queryable = require('query-objects');
+module.exports = function(app) {
 
 	// Home page
 	app.get('/', function(req, res) {
@@ -11,13 +11,9 @@ module.exports = function(app, passport) {
 	});
 
 	// StudentList page
-	app.get('/studentList', isLoggedIn, function(req, res) {
-		//User.find().exec().then(user => {
-    User.find().where('local.usergroup').equals('student').exec().then(user => {
-
-			res.render('studentList.ejs', {
-				user: user
-			});
+	app.get('/studentList', function(req, res) {
+		User.find().where('local.usergroup').equals('student').exec().then(user => {
+			res.json(user.map(user => user.apiRepr()));
 		}).catch(err => {
 			console.error(err);
 			res.status(500).json({
@@ -26,22 +22,51 @@ module.exports = function(app, passport) {
 		});
 	});
 
-  //List of tests????
-	app.get('/testList', isLoggedIn, (req, res) =>{
-		User.find().exec().then(user => {
-			res.render('testList.ejs', {
-				user: user
+
+	//List of tests with avg score
+	app.get('/testList', (req, res) => {
+		let maxTstNumber = 0;
+		let sum = {};
+		User.find().where('local.usergroup').equals('student').exec().then(user => {
+			for (i = 0; i < user.length; i++) {
+				if (maxTstNumber < user[i].local.grades.length) {
+					maxTstNumber = user[i].local.grades.length;
+				}
+			}
+			let stat = [];
+			let examObj;
+			for (j = 1; j <= maxTstNumber; j++) {
+				examObj = {};
+				sum = 0;
+				cnt = 0;
+				for (i = 0; i < user.length; i++) {
+					if (user[i].local.grades.length != 0) {
+						cnt += 1;
+						for (k = 0; k < user[i].local.grades.length; k++) {
+							if (user[i].local.grades[k].testNumber == j) {
+								sum += user[i].local.grades[k].testScore;
+							}
+						}
+					}
+				}
+				examObj['testId'] = j;
+				examObj['avg'] = sum / cnt;
+				stat.push(examObj);
+			}
+			res.json({
+				user: user.map(user => user.apiRepr()),
+				stat: stat
 			});
 		}).catch(err => {
 			console.error(err);
 			res.status(500).json({
-				message: 'Internal server error'
+				message: err
 			});
 		});
 	});
 
-  //Get a student's grade
-	app.get('/getGrade/:id', isLoggedIn, (req, res) => {
+	//Get a student's grade
+	app.get('/getGrade/:id', (req, res) => {
 		User.findById(req.params.id).exec().then(user => res.json(user.apiRepr())).catch(err => {
 			console.error(err);
 			res.status(500).json({
@@ -50,50 +75,34 @@ module.exports = function(app, passport) {
 		});
 	});
 
-
 	//Get test statistic for a test
-	app.get('/testStat/:id', isLoggedIn, (req, res) => {
-		TestScore.find({
-			'testNumber': req.params.id
-		}, {
-			score: req.params.id
-		}).exec().then(tests => {
-			console.log(tests);
-			res.json(tests)
-		}).catch(err => {
-			console.error(err);
-			res.status(500).json({
-				message: 'Internal server error'
-			});
-		});
-	});
-
-
-	//Test statistics
-	app.get('/testStat', isLoggedIn, (req, res) => {
-		TestScore.aggregate(
-			[{
-				$group: {
-					_id: "$testNumber",
-					avgScore: {
-						$avg: "$score"
+	app.get('/testList/:id', (req, res) => {
+		User.find().where('local.usergroup').equals('student').exec().then(user => {
+			let testId = req.params.id;
+			let testScores = [];
+				for (i = 0; i < user.length; i++) {
+					if (user[i].local.grades.length != 0) {
+						cnt += 1;
+						for (k = 0; k < user[i].local.grades.length; k++) {
+							if (user[i].local.grades[k].testNumber == testId) {
+								testScores.push (user[i].local.grades[k].testScore);
+							}
+						}
 					}
-				}
-			}]).exec().then(tests => {
-			res.render('testStat.ejs', {
-				tests: tests
+			}
+			res.json({
+				user: user.map(user => user.apiRepr()),
+				testScores: testScores
 			});
 		}).catch(err => {
 			console.error(err);
 			res.status(500).json({
-				message: 'Internal server error'
+				message: err
 			});
 		});
 	});
 
-
-	//Add Test
-	app.get('/addTest', isLoggedIn, (req, res) =>{
+	app.get('/addTest', (req, res) => {
 		User.find().where('local.usergroup').equals('student').exec().then(user => {
 			res.render('testScore.ejs', {
 				user: user
@@ -108,7 +117,7 @@ module.exports = function(app, passport) {
 
 
 	//Add student
-	app.post('/addStudent', isLoggedIn, (req, res) => {
+	app.post('/addStudent', (req, res) => {
 		const requiredFields = ['firstname', 'lastname'];
 		requiredFields.forEach(field => {
 			if (!(field in req.body)) {
@@ -117,61 +126,62 @@ module.exports = function(app, passport) {
 				});
 			}
 		});
-		var newUser = new User();
-		newUser.local.firstname = req.body.firstname;
-		newUser.local.lastname = req.body.lastname;
-    newUser.local.usergroup = "student";
+		User.create({
+			local: {
+				firstname: req.body.firstname,
+				lastname: req.body.lastname,
+				usergroup: "student"
+			}
+		}).then(user => {
+			res.json(user.apiRepr());
+		}).catch(err => {
+			console.error(err);
+			res.status(500).json({
+				error: 'Something went wrong'
+			});
+		});
 
-		newUser.save(function(err) {});
 	});
 
-  // Add new test scores in User and create new scores in TestScore collection
-	app.post('/addTestScore', isLoggedIn, (req, res) => {
+	// Add new test scores in User and create new scores in TestScore collection
+	app.post('/addTestScore', (req, res) => {
 		console.log(req.body);
-		var testNumber = req.body[req.body.length - 2][1];
+		var testNumber = req.body[req.body.length - 1][1];
 		let toUpdate2 = {};
-		for (i = 0; i < req.body.length - 2; i++) {
+		for (i = 0; i < req.body.length - 1; i++) {
 			toUpdate2 = {};
 			toUpdate2['local.grades'] = {
 				"testNumber": testNumber,
 				"testScore": req.body[i][1]
 			};
-			//Add to user table
+
 			User.findByIdAndUpdate(req.body[i][0], {
 				$push: toUpdate2
-			}).exec().then(user => {
-				res.status(204).end();
+			},{
+				new: true
+			}
+		).exec().then(user => {
+				res.json(user.apiRepr()).end();
 			}).catch(err => {
 				console.error(err);
 				res.status(500).json({
 					error: 'something went horribly awry-get id'
 				});
 			});
-			//Add to test table
-			TestScore.create({
-				testNumber: testNumber,
-				date: new Date(),
-				description: req.body[req.body.length - 1][1],
-				userId: req.body[i][0],
-				score: req.body[i][1]
-			}).then().catch(err => {
-				console.error(err);
-				res.status(500).json({
-					message: 'Internal server error'
-				});
-			});
+
 		}
 	});
 
 	//Delete a student
-	app.delete('/student/:id', isLoggedIn, (req, res) => {
+	app.delete('/student/:id', (req, res) => {
 		User.findByIdAndRemove(req.params.id).exec().then(user => res.status(204).end()).catch(err => res.status(500).json({
 			message: 'Internal server error'
 		}));
 	});
 
+
 	// Update a student info
-	app.put('/student/:id', isLoggedIn, (req, res) => {
+	app.put('/student/:id', (req, res) => {
 		// ensure that the id in the request path and the one in request body match
 		if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
 			const message = (`Request path id (${req.params.id}) and request body id ` + `(${req.body.id}) must match`);
@@ -181,19 +191,41 @@ module.exports = function(app, passport) {
 			});
 		}
 		const toUpdate = {};
-		const updateableFields = ['local.firstname', 'local.lastname'];
-		toUpdate['local.firstname'] = req.body['firstname'];
-		toUpdate['local.lastname'] = req.body['lastname'];
+		toUpdate['local.firstname'] = req.body.firstname;
+		toUpdate['local.lastname'] = req.body.lastname;
+		User.findByIdAndUpdate(req.params.id, {
+			$set: toUpdate
+		}, {
+			new: true
+		}).exec().then(user => {
+			res.json(user.apiRepr()).end();
+		}).catch(err => res.status(500).json({
+			message: 'Internal server error'
+		}));
+	});
 
-		 User.findByIdAndUpdate(req.params.id, {$set: toUpdate})
-       .exec()
-       .then(user => res.status(204).end())
-       .catch(err => res.status(500).json({message: 'Internal server error'}));
+	//Update test score
+	app.put('/testList/:id', (req, res) => {
+		const toUpdate = {};
+		toUpdate['local.grades'] = {
+			"testNumber": req.body.testNumber,
+			"testScore": req.body.testScore
+		};
+
+		User.findByIdAndUpdate(req.params.id, {
+			$set: toUpdate
+		}, {
+			new: true
+		}).exec().then(user => {
+			res.json(user.apiRepr()).end();
+		}).catch(err => res.status(500).json({
+			message: 'Internal server error'
+		}));
 	});
 
 
 	//Get a student info
-	app.get('/student/:id', isLoggedIn, (req, res) => {
+	app.get('/student/:id', (req, res) => {
 		User.findById(req.params.id).exec().then(user => res.json(user.apiRepr())).catch(err => {
 			console.error(err);
 			res.status(500).json({
@@ -202,37 +234,4 @@ module.exports = function(app, passport) {
 		});
 	});
 
-	// logout
-	app.get('/logout', (req, res) => {
-		req.logout();
-		res.redirect('/');
-	});
-
-  //Login
-	app.post('/login', passport.authenticate('local-login', {
-		successRedirect: '/studentList', // redirect to the secure profile section
-		failureRedirect: '/', // redirect back to the signup page if there is an error
-		failureFlash: true // allow flash messages
-	}));
-
-
-	//signup page
-	app.get('/signup', (req, res) =>{
-		res.render('signup.ejs', {
-			message: req.flash('signupMessage')
-		});
-	});
-
-	// process the signup form
-	app.post('/signup', passport.authenticate('local-signup', {
-		successRedirect: '/studentList', // redirect to the secure profile section
-		failureRedirect: '/signup', // redirect back to the signup page if there is an error
-		failureFlash: true // allow flash messages
-	}));
-
 };
-// route middleware to ensure user is logged in
-function isLoggedIn(req, res, next) {
-	if (req.isAuthenticated()) return next();
-	res.redirect('/');
-}
