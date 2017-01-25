@@ -1,26 +1,22 @@
-var express  = require('express');
-var app      = express();
-var port     = process.env.PORT || 8080;
-var mongoose = require('mongoose');
-var passport = require('passport');
-var flash    = require('connect-flash');
+const express  = require('express');
+const app      = express();
+const port     = process.env.PORT || 8080;
+const mongoose = require('mongoose');
+const passport = require('passport');
+const flash    = require('connect-flash');
 
-var morgan       = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser   = require('body-parser');
-var session      = require('express-session');
+const morgan       = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser   = require('body-parser');
+const session      = require('express-session');
 
 const  dotenv = require('dotenv').load();
 
-//dotenv.config();
 
-//var dev_url = process.env.config.mongoURI.development;
 const DATABASE_URL = process.env.dev;
 
 
-//var configDB = require('./config/database.js');
 
-//mongoose.connect('mongodb://tst:abc@ds023932.mlab.com:23932/capstone_seo');
 require('./config/passport')(passport); // pass passport for configuration
 
 app.use(express.static(__dirname + '/public'));
