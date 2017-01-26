@@ -4,16 +4,16 @@ function addTestScore(score) {
 		url: '/addTestScore',
 		data: JSON.stringify(score),
 		success: function(data) {
-			alert("success");
-      $("#addScores").bootstrapValidator('resetForm', true);
+
+      		$("#addScores").bootstrapValidator('resetForm', true);
 			$("#addScores").find('.has-error').removeClass("has-error");
 			$("#addScores").find('.has-success').removeClass("has-success");
 			$('#addScores').find('.form-control-feedback').remove();
+        	window.location = '/studentList'; 
 		},
 		dataType: 'json',
 		contentType: 'application/json'
 	});
-
 
   return false;
 }
@@ -21,14 +21,13 @@ function addTestScore(score) {
 function addTestScoreDB() {
 	let testScores = [];
 	var table = document.getElementById('studentList');
-	var description = document.getElementById('description').value;
 	var testNumber = $(document.getElementById('testNumber')).attr("data-id");
 	for (var r = 1, n = table.rows.length; r < n; r++) {
 		element = table.rows[r].cells[1].innerHTML;
+		console.log(element);
 		testScores.push([$(table.rows[r].cells[1].childNodes[0]).attr("data-id"), table.rows[r].querySelectorAll('.newScore')[0].value]);
 	}
 	testScores.push(["testNumber", testNumber]);
-	testScores.push(["description", description]);
 	addTestScore(testScores);
 }
 

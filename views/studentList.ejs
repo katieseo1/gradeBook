@@ -59,10 +59,10 @@
 							<tbody>
 								<%for(var i=0; i < user.length; i++) { %>
 								<tr>
-									<td class="name"><%= user[i].local.firstname +" " +user[i].local.lastname  %></td><%var total=0; for (var j=0; j < user[i].local.grades.length;j++) {%><%total+=user[i].local.grades[j].testScore;%><%console.log(user[i].local.grades[j].testScore);%><%} %>
-									<td><%= (total/user[i].local.grades.length).toFixed(2) %></td>
+									<td class="name"><%= user[i].firstname +" " +user[i].lastname  %></td><%var total=0; for (var j=0; j < user[i].grades.length;j++) {%><%total+=user[i].grades[j].testScore;%><%} %>
+									<td><%= (total/user[i].grades.length).toFixed(2) %></td>
 									<td><button class="btn btn-default js-student-progress" data-id='<%=user[i].id %>'><span class="fa fa-bar-chart-o"></span> Progress</button></td>
-									<td><button class="btn btn-default js-student-edit" data-id='<%=user[i].id %>' data-firstName= '<%=user[i].local.firstname %>', data-lastname='<%=user[i].local.lastname %>'><span class="fa fa-edit"></span> Edit</button></td>
+									<td><button class="btn btn-default js-student-edit" data-id='<%=user[i].id %>' data-firstName= '<%=user[i].firstname %>', data-lastname='<%=user[i].lastname %>'><span class="fa fa-edit"></span> Edit</button></td>
 									<td><button class="btn btn-default js-student-delete" data-id='<%=user[i].id %>'><span class="fa fa-trash-o"></span> Delete</button></td>
 								</tr><%} %>
 							</tbody>

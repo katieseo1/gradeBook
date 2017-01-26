@@ -57,7 +57,7 @@ function updateStudent(student) {
 function handleStudentEdit() {
 	$('.studentTable').on('click', '.js-student-edit', function(e) {
 		e.preventDefault();
-		editStudent($(e.currentTarget).closest('.js-student-edit').attr('data-id'), 
+		editStudent($(e.currentTarget).closest('.js-student-edit').attr('data-id'),
 			$(e.currentTarget).closest('.js-student-edit').attr('data-lastName'),$(e.currentTarget).closest('.js-student-edit').attr('data-firstName'));
 	});
 }
@@ -108,7 +108,7 @@ function progressChart(id) {
 		method: 'GET',
 		success: function(data) {
 			document.getElementById('studentProgressLabel').innerHTML = "Progress Information for " + data.firstname + " " + data.lastname;
-			drawGradeChart(data.grades);
+			drawGradeChart(data.user.grades);
 		}
 	});
 }
@@ -162,7 +162,7 @@ function validateEditStudentForm() {
 			}
 		}
 	}).on('success.field.fv', function(e, data) {
-		if (data.fv.getInvalidFields().length > 0) { 
+		if (data.fv.getInvalidFields().length > 0) {
 			data.fv.disableSubmitButtons(true);
 		}
 	});
@@ -188,7 +188,7 @@ function validateAddStudentForm() {
 			}
 		}
 	}).on('success.field.fv', function(e, data) {
-		if (data.fv.getInvalidFields().length > 0) { 
+		if (data.fv.getInvalidFields().length > 0) {
 			data.fv.disableSubmitButtons(true);
 		}
 	});
