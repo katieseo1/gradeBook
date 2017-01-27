@@ -16,8 +16,12 @@ function handleTestEdit() {
 		testEdit($(e.currentTarget).closest('.js-test-edit').attr('data-id'));
 	});
 }
-var testTemplate = ('<div class='well'>' + '<span><p class='studentName floating-box'></p>' + '<input class='testScore formfloating-box'></input></span>' + '<button class='btn floating-box btn-default  js-score-edit'><span><i class='glyphicon glyphicon-edit '></i> Edit</span></button>'
- + '<button class='btn btn-default floating-box js-score-delete'><span><i class='glyphicon glyphicon-trash '></i> Delete</span></button>' + '</div>' + '</div>');
+var testTemplate = ('<div class=\'well\'>' +
+'<span><p class=\'studentName floating-box\'></p>' +
+ '<input class=\'testScore formfloating-box\' type=\'number\'></input></span>' +
+ '<button class=\'btn floating-box btn-default  js-score-edit\'><span><i class=\'glyphicon glyphicon-edit\'></i> Edit</span></button>'
+ + '<button class=\'btn btn-default floating-box js-score-delete\'><span><i class=\'glyphicon glyphicon-trash \'></i> Delete</span></button>'
+ + '</div>' + '</div>');
 
 function displayTestTable(data, testId) {
 	var testTableElement = data.map(function(data) {
@@ -85,6 +89,7 @@ function deleteScore(test) {
 		contentType: 'application/json',
 		data: JSON.stringify(test),
 		success: function() {
+
 			window.location.reload(true);
 			$('#editTest').modal('hide');
 		}
@@ -161,6 +166,9 @@ function drawTestChart(exam) {
 		chart.draw(data, options);
 	}
 }
+
+
+
 $(function() {
 	$('#testDT').DataTable();
 	handleScoreDelete();

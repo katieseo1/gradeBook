@@ -13,9 +13,9 @@
 	<nav class='navbar navbar-default navbar-fixed-top'>
 		<div class='container'>
 			<div class='navbar-header'>
-				<button class='navbar-toggle collapsed' data-target='#navbar8' data-toggle='collapse' type='button'><span class='sr-only'>Toggle navigation</span> <span class='icon-bar'></span> <span class='icon-bar'></span> <span class='icon-bar'></span></button> <a class='navbar-brand' href='#' rel='home'><img src='/img/gradeBookBlack.png' style='max-height:50px; margin-right: 2px;'> GradeBook</a>
+				<button class='navbar-toggle collapsed' data-target='#navbar8' data-toggle='collapse' type='button'><span class='sr-only'>Toggle navigation</span> <span class='icon-bar'></span> <span class='icon-bar'></span> <span class='icon-bar'></span></button> <a class='navbar-brand' href='/' rel='home'><img src='/img/gradeBookBlack.png' style='max-height:50px; margin-right: 2px;'> GradeBook</a>
 			</div>
-			<div class='navbar-collapse collapse' id='navbar8'>
+			<div class='navbar-collapse collapse' >
 				<ul class='nav navbar-nav navbar-right'>
 					<li class='active'>
 						<a class='signup' href='/Logout'>Logout</a>
@@ -47,7 +47,7 @@
 							<div class='panel-heading'>
 								<div class='panel-title text-center'>
 						<hr>
-						<h3 class='text-center' data-id='<%=nextTestNumber%>' id='testNumber' style='color:grey'>Add Test Score for Test <%=nextTestNumber+1%></h3>
+						<h3 class='text-center' data-id='<%=nextTestNumber%>' id='testNumber' style='color:grey'>Add Test Score for Test <%=nextTestNumber%></h3>
 
 								</div>
 							</div>
@@ -66,7 +66,7 @@
 												<td data-id='<%=user[i]._id %>'><%= user[i].local.firstname +' ' +user[i].local.lastname  %></td>
 												<%var total=0; for (var j=0; j < user[i].local.grades.length;j++) {%>
 													<%total+=user[i].local.grades[j];%><%} %>
-												<td><input class='newScore form-control' data-id = '<%=user[i]._id %>'  ></td>
+												<td><input class='newScore form-control' data-id = '<%=user[i]._id %>'  name='score'></td>
 
 											</tr>
 											<%} %>
@@ -90,7 +90,7 @@
 	</script>
 	<script src='/js/bootstrap.min.js'>
 	</script>
-	</script> 
+	</script>
 	<link href='//cdn.datatables.net/1.10.13/css/jquery.dataTables.css' rel='stylesheet' type='text/css'>
 	<script charset='utf8' src='//cdn.datatables.net/1.10.13/js/jquery.dataTables.js' type='text/javascript'>
 	</script>
@@ -98,8 +98,8 @@
 	</script>
 	<script charset='utf8' src='//cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js' type='text/javascript'>
 	</script>
-  <script src='//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js' type='text/javascript'>
-</script>
+  	<script src='//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js' type='text/javascript'></script>
+   	<script src='//cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js'></script>
 	<script src='/js/addTest.js'>
 	</script>
 </body>

@@ -4,11 +4,18 @@ function addTestScore(score) {
 		url: '/addTestScore',
 		data: JSON.stringify(score),
 		success: function(data) {
-			$('#addScores').bootstrapValidator('resetForm', true);
-			$('#addScores').find('.has-error').removeClass('has-error');
-			$('#addScores').find('.has-success').removeClass('has-success');
-			$('#addScores').find('.form-control-feedback').remove();
-			window.location = '/studentList';
+			bootbox.alert({
+	 		size: 'small',
+	 		message: 'Added test scores',
+	 		callback: function () {
+			window.location.reload(true);
+    					
+				$('#addScores').bootstrapValidator('resetForm', true);
+				$('#addScores').find('.has-error').removeClass('has-error');
+				$('#addScores').find('.has-success').removeClass('has-success');
+				$('#addScores').find('.form-control-feedback').remove();
+			}
+			});
 		},
 		dataType: 'json',
 		contentType: 'application/json'

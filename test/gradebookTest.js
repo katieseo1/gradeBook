@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const should = chai.should();
 const TEST_DATABASE_URL = process.env.tst;
 const User = require('../app/models/user');
-const numOfSeedData=3;
+const numOfSeedData = 3;
 const {
 	closeServer,
 	runServer,
@@ -15,7 +15,6 @@ const {
 chai.use(chaiHttp);
 let seedData = [];
 let stat = [];
-
 describe('Gradebook API resource', function() {
 	before(function() {
 		return runServer(TEST_DATABASE_URL);
@@ -29,7 +28,6 @@ describe('Gradebook API resource', function() {
 	after(function() {
 		return closeServer();
 	});
-
 	//Get endpoint for addTest & student
 	describe('GET endpoint', function() {
 		it('should return all existing posts', function() {
@@ -43,9 +41,8 @@ describe('Gradebook API resource', function() {
 				res.body.should.have.length.of(count);
 			});
 		});
-
 		it('should return posts with right fields', function() {
-			// Strategy: Get back all students, and ensure they have expected keys
+			//  Get back all students, and ensure they have expected keys
 			let resStudentList;
 			return chai.request(app).get('/api/studentList').then(function(res) {
 				res.should.have.status(200);
@@ -64,9 +61,8 @@ describe('Gradebook API resource', function() {
 				resStudentList.lastname.should.equal(student.local.lastname);
 			});
 		});
-
 		it('should get grades of a student', function() {
-			// Strategy: Get back grades of a student, and ensure they have expected data type
+			//  Get back grades of a student, and ensure they have expected data type
 			return User.findOne().exec().then(user => {
 				return chai.request(app).get(`/api/getGrade/${user.id}`);
 			}).then(res => {
@@ -74,23 +70,20 @@ describe('Gradebook API resource', function() {
 				res.body.should.be.a('object');
 			})
 		});
-
 		it('should return test stat', function() {
-			// strategy: prove test stat we got back is equal to stat from seeded data.
+			//  prove test stat we got back is equal to the stat from seeded data.
 			let res;
 			return chai.request(app).get('/api/testStat').then(_res => {
 				res = _res;
 				res.should.have.status(200);
-				// otherwise our db seeding didn't work
 				res.body.stat.should.have.length.of.at.least(1);
 				//Calculated avg score is equal to the avg from DB
 				res.body.stat[0].avg.should.equal(getStat(seedData)[0].avg);
 			})
 		});
-
 		it('should get scores for a test', function() {
 			//prove the number scores of a test we got back is equal to the number of scores
-			//       from seeded data for db
+			// from seeded data for db
 			return User.findOne().exec().then(user => {
 				return chai.request(app).get(`/api/testList/1`);
 			}).then(res => {
@@ -101,7 +94,6 @@ describe('Gradebook API resource', function() {
 				res.body.testScores[0].should.equal(getTestScore(seedData, 1)[0]);
 			})
 		});
-
 		// Should return next test number from the test number we got back
 		it('should return next test number', function() {
 			let res;
@@ -109,17 +101,16 @@ describe('Gradebook API resource', function() {
 				res = _res;
 				res.should.have.status(200);
 				//Next test number should be 4 based on seed data
-				res.body.nextTestNumber.should.equal(numOfSeedData+1);
+				res.body.nextTestNumber.should.equal(numOfSeedData + 1);
 			})
 		});
 	});
-
 
 	//********************* POST ENDPOINT **************//
 	describe('POST endpoint', function() {
 		this.timeout(5000);
 		let newStudent;
-		// strategy: From a new student returned by request contains data we sent
+		//  Find new student from DB from the data we sent over
 		it('should add a student', function() {
 			newStudent = {
 				firstname: faker.name.firstName(),
@@ -135,28 +126,26 @@ describe('Gradebook API resource', function() {
 				student.local.lastname.should.equal(newStudent.lastname);
 			});
 		});
-
+		// Compare the test score we sent over with a score of the student in DB
 		it('should add test scores', function() {
-			// strategy: From added test scores returned by request contains data we sent
 			let testScores = [];
 			let aUserId;
 			let numOfGrades;
 			return User.findOne().exec().then(user => {
 				testScores.push([user.id, 100])
-				testScores.push(['testNumber', 99]);
+				testScores.push(["testNumber", 99]);
 				numOfGrades = user.local.grades.length + 1;
 				aUserId = user.id;
-				return chai.request(app).post(`/api/addTestScore/`).send(testScores);
+				return chai.request(app).post(`/api/addTestScore2`).send(testScores);
 			}).then(res => {
-				res.body.should.be.a('object');
-				res.body.grades.should.have.length(numOfGrades);
-				res.body.grades[numOfGrades - 1].testNumber.should.equal(99);
+				return User.findById(aUserId).exec().then(user => {
+					user.local.grades.should.have.length(numOfGrades);
+					user.local.grades[numOfGrades - 1].testNumber.should.equal(99);
+				});
 			});
 		});
 	});
-
 	describe('PUT endpoint', function() {
-		// strategy:
 		// From an existing student returned by request contains data we sent
 		it('should update fields we send over (Updating a student)', function() {
 			const updateData = {
@@ -173,8 +162,7 @@ describe('Gradebook API resource', function() {
 				res.body.lastname.should.equal(updateData.lastname);
 			});
 		});
-
-		// strategy: Prove  an existing test returned by request contains data we sent
+		//  Prove an existing test returned by request contains the same data we sent
 		it('should update test score we send over', function() {
 			const updateData = {
 				testNumber: 1,
@@ -189,8 +177,7 @@ describe('Gradebook API resource', function() {
 			})
 		});
 	});
-
-	//Delete a student by id and check the student in DB
+	//Delete a student by id and check if the student still exists in the db
 	describe('DELETE endpoint', function() {
 		it('should delete a student by id', function() {
 			let stu;
@@ -204,8 +191,7 @@ describe('Gradebook API resource', function() {
 				should.not.exist(_stu);
 			});
 		});
-
-		//Delete a score of a user and compare the number of scores of the student in DB
+		//Delete a score of the student and compare the number of scores of the student in DB (should be one less)
 		it('should delete a score of test', function() {
 			const deleteData = {
 				testNumber: 1
@@ -224,7 +210,6 @@ describe('Gradebook API resource', function() {
 		});
 	});
 });
-
 // deletes the entire database
 function tearDownDb() {
 	return new Promise((resolve, reject) => {
@@ -232,7 +217,6 @@ function tearDownDb() {
 		mongoose.connection.dropDatabase().then(result => resolve(result)).catch(err => reject(err))
 	});
 }
-
 //Use Faker library to populate test data
 function seedTestData() {
 	seedData = [];

@@ -24,7 +24,6 @@ module.exports = function(app, passport) {
 			errMsg(res);
 			return res.json();
 		}).then(function(user) {
-			console.log(user);
 			res.render('studentList.ejs', {
 				user: user
 			});
@@ -56,6 +55,21 @@ module.exports = function(app, passport) {
 		})
 	});
 
+	// Add new scores for a test
+	app.post('/addTestScore', isLoggedIn, (req, res) => {
+		fetch(apiURL + 'addTestScore/', {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(req.body)
+		}).then(function(res) {
+			errMsg(res);
+			return res.json();
+		}).then(res.json(1));
+	});
+	
 	// Update a student info
 	app.put('/student/:id', isLoggedIn, (req, res) => {
 		fetch(apiURL + 'student/' + req.params.id, {
@@ -80,17 +94,7 @@ module.exports = function(app, passport) {
 			return res.json();
 		}).then(res.json(1));
 	});
-	// ??????????? Get a student info
-	/*
-	app.get('/student/:id', isLoggedIn, (req, res) => {
-		User.findById(req.params.id).exec().then(user => res.json(user.apiRepr())).catch(err => {
-			console.error(err);
-			res.status(500).json({
-				error: 'something went horribly awry-get id'
-			});
-		});
-	});
-*/
+
 	//Get test distribution for a test
 	app.get('/testList/:id', isLoggedIn, (req, res) => {
 		fetch(apiURL + 'testList/' + req.params.id).then(function(res) {
@@ -160,22 +164,7 @@ module.exports = function(app, passport) {
 		});
 	});
 
-	// Add new scores for a test
-	app.post('/addTestScore', isLoggedIn, (req, res) => {
-		fetch(apiURL + 'addTestScore/', {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(req.body)
-		}).then(function(res) {
-			errMsg(res);
-			return res.json();
-		}).then(function(user) {
-			res.json(1);
-			});
-	});
+
 
 	//=============authentication===========//
 	// logout

@@ -8,7 +8,7 @@ function deleteStudent(id) {
 		url: 'student/' + id,
 		method: 'DELETE',
 		success: function(data) {
-			window.location.reload(true);
+			location.reload();
 		}
 	});
 }
@@ -65,6 +65,7 @@ function addStudent(student) {
 		url: '/addStudent',
 		data: JSON.stringify(student),
 		success: function(data) {
+
 			$('#editPost').bootstrapValidator('resetForm', true);
 			$('#editPost').find('.has-error').removeClass('has-error');
 			$('#editPost').find('.has-success').removeClass('has-success');

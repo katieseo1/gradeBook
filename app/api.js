@@ -109,7 +109,27 @@ module.exports = function(app) {
 			res.json(user.apiRepr());
 		}).catch(err => errMsg(err, res));
 	});
-	// Add test scores
+	// Add new test scores of to users (API for testing purpose)
+	app.post('/api/addTestScore2', (req, res) => {
+		var testNumber = req.body[req.body.length - 1][1];
+		let toUpdate2 = {};
+		for (i = 0; i < req.body.length - 1; i++) {
+			toUpdate2 = {};
+			toUpdate2['local.grades'] = {
+				"testNumber": testNumber,
+				"testScore": req.body[i][1]
+			};
+			User.findByIdAndUpdate(req.body[i][0], {
+				$push: toUpdate2
+			}, {
+				new: true
+			}).exec().then(user => {
+				res.json(user.apiRepr()).end();
+			}).catch(err => errMsg(err, res));
+		}
+	});
+
+	// Add new test scores of to users
 	app.post('/api/addTestScore', (req, res) => {
 		let testNumber = req.body[req.body.length - 1][1];
 		let toUpdate2 = {};
@@ -126,7 +146,7 @@ module.exports = function(app) {
 			}, {
 				new: true
 			}).exec().then(user => {
-				res.json(user.apiRepr()).end();
+				console.log(user)
 			}).catch(err => errMsg(err, res));
 		}
 	});
