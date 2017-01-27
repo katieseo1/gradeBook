@@ -24,6 +24,7 @@ module.exports = function(app, passport) {
 			errMsg(res);
 			return res.json();
 		}).then(function(user) {
+			console.log(user);
 			res.render('studentList.ejs', {
 				user: user
 			});
@@ -67,9 +68,7 @@ module.exports = function(app, passport) {
 		}).then(function(res) {
 			errMsg(res);
 			return res.json();
-		}).then(function(user) {
-			res.json(user);
-		});
+		}).then(res.json(1));
 	});
 
 	//Delete a student
@@ -79,9 +78,7 @@ module.exports = function(app, passport) {
 		}).then(function(res) {
 			errMsg(res);
 			return res.json();
-		}).then(function(user) {
-			res.json(user);
-		});
+		}).then(res.json(1));
 	});
 	// ??????????? Get a student info
 	/*
@@ -119,9 +116,7 @@ module.exports = function(app, passport) {
 		}).then(function(res) {
 			errMsg(res);
 			return res.json();
-		}).then(function(user) {
-			res.json(user);
-		});
+		}).then(res.json(1));
 	});
 
 	//Delete a score of the teset
@@ -136,9 +131,7 @@ module.exports = function(app, passport) {
 		}).then(function(res) {
 			errMsg(res);
 			return res.json();
-		}).then(function(user) {
-			res.json(user);
-		});
+		}).then(res.json(1));
 	});
 
 	//List of tests with avg score
@@ -147,7 +140,6 @@ module.exports = function(app, passport) {
 			errMsg(res);
 			return res.json();
 		}).then(function(data) {
-			console.log(data);
 			res.render('testStat.ejs', {
 				user: data.user,
 				stat: data.stat
@@ -163,14 +155,13 @@ module.exports = function(app, passport) {
 		}).then(function(data) {
 			res.render('addTestScores.ejs', {
 				user: data.user,
-				nextTestNumber: data.nextTestNumber + 1
+				nextTestNumber: data.nextTestNumber
 			});
 		});
 	});
 
 	// Add new scores for a test
 	app.post('/addTestScore', isLoggedIn, (req, res) => {
-		console.log(req.body);
 		fetch(apiURL + 'addTestScore/', {
 			method: 'POST',
 			headers: {
@@ -182,8 +173,8 @@ module.exports = function(app, passport) {
 			errMsg(res);
 			return res.json();
 		}).then(function(user) {
-			res.json(user);
-		});
+			res.json(1);
+			});
 	});
 
 	//=============authentication===========//
@@ -195,9 +186,9 @@ module.exports = function(app, passport) {
 
 	//Login
 	app.post('/login', passport.authenticate('local-login', {
-		successRedirect: '/studentList', // redirect to the secure profile section
-		failureRedirect: '/', // redirect back to the signup page if there is an error
-		failureFlash: true // allow flash messages
+		successRedirect: '/studentList',
+		failureRedirect: '/',
+		failureFlash: true
 	}));
 
 	//signup page
@@ -209,9 +200,9 @@ module.exports = function(app, passport) {
 
 	// process the signup form
 	app.post('/signup', passport.authenticate('local-signup', {
-		successRedirect: '/studentList', // redirect to the secure profile section
-		failureRedirect: '/signup', // redirect back to the signup page if there is an error
-		failureFlash: true // allow flash messages
+		successRedirect: '/studentList',
+		failureRedirect: '/signup',
+		failureFlash: true
 	}));
 };
 

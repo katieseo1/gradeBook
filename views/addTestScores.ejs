@@ -2,58 +2,58 @@
 <html>
 <head>
 	<title>Grade book</title>
-	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
-	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
-	<link href="//cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css" rel="stylesheet">
-	<link href="//cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet">
-	<link href="/custom/simple-sidebar.css" rel="stylesheet">
-	<link href="/custom/custom-nav.css" rel="stylesheet">
+	<link href='//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css' rel='stylesheet'>
+	<link href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css' rel='stylesheet'>
+	<link href='//cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css' rel='stylesheet'>
+	<link href='//cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css' rel='stylesheet'>
+	<link href='/custom/simple-sidebar.css' rel='stylesheet'>
+	<link href='/custom/custom-nav.css' rel='stylesheet'>
 </head>
 <body>
-	<nav class="navbar navbar-default navbar-static-top">
-		<div class="container">
-			<div class="navbar-header">
-				<button class="navbar-toggle collapsed" data-target="#navbar8" data-toggle="collapse" type="button"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button> <a class="navbar-brand" href="#" rel="home"><img src="/img/gradeBookBlack.png" style="max-height:50px; margin-right: 2px;"> GradeBook</a>
+	<nav class='navbar navbar-default navbar-fixed-top'>
+		<div class='container'>
+			<div class='navbar-header'>
+				<button class='navbar-toggle collapsed' data-target='#navbar8' data-toggle='collapse' type='button'><span class='sr-only'>Toggle navigation</span> <span class='icon-bar'></span> <span class='icon-bar'></span> <span class='icon-bar'></span></button> <a class='navbar-brand' href='#' rel='home'><img src='/img/gradeBookBlack.png' style='max-height:50px; margin-right: 2px;'> GradeBook</a>
 			</div>
-			<div class="navbar-collapse collapse" id="navbar8">
-				<ul class="nav navbar-nav navbar-right">
-					<li class="active">
-						<a class="signup" href="/Logout">Logout</a>
+			<div class='navbar-collapse collapse' id='navbar8'>
+				<ul class='nav navbar-nav navbar-right'>
+					<li class='active'>
+						<a class='signup' href='/Logout'>Logout</a>
 					</li>
 				</ul>
 			</div><!--/.nav-collapse -->
 		</div><!--/.container-fluid -->
 	</nav>
-	<div id="wrapper">
+	<div id='wrapper'>
 		<!-- Sidebar -->
-		<div id="sidebar-wrapper">
-			<ul class="sidebar-nav">
+		<div id='sidebar-wrapper'>
+			<ul class='sidebar-nav'>
 				<li>
-					<a href="/testStat">Test Statistic</a>
+					<a href='/testStat'>Test Statistic</a>
 				</li>
 				<li>
-					<a href="/studentList">Student List</a>
+					<a href='/studentList'>Student List</a>
 				</li>
 			</ul>
 		</div><!-- /#sidebar-wrapper -->
 		<!-- /#sidebar-wrapper -->
-		<div id="page-content-wrapper">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-10">
-						<a class="btn btn-default" href="#menu-toggle" id="menu-toggle"><i class="fa fa-arrows-h"></i></a>
+		<div id='page-content-wrapper'>
+			<div class='container'>
+				<div class='row'>
+					<div class='col-lg-10'>
+						<a class='btn btn-default' href='#menu-toggle' id='menu-toggle'><i class='fa fa-arrows-h'></i></a>
 
-						<div class="panel panel-default" style="margin-top:50px;">
-							<div class="panel-heading">
-								<div class="panel-title text-center">
+						<div class='panel panel-default' style='margin-top:50px;'>
+							<div class='panel-heading'>
+								<div class='panel-title text-center'>
 						<hr>
-						<h3 class="text-center" data-id='<%=nextTestNumber%>' id="testNumber" style="color:grey">Add Test Score for Test <%=nextTestNumber+1%></h3>
+						<h3 class='text-center' data-id='<%=nextTestNumber%>' id='testNumber' style='color:grey'>Add Test Score for Test <%=nextTestNumber+1%></h3>
 
 								</div>
 							</div>
-							<div class="panel-body">
-								<form id="addScores"  >
-									<table class="studentTable table table-striped" id="studentList">
+							<div class='panel-body'>
+								<form id='addScores'  >
+									<table class='studentTable table table-striped' id='studentList'>
 										<thead>
 											<tr>
 												<th>Name</th>
@@ -63,19 +63,19 @@
 										<tbody>
 											<%for(var i=0; i < user.length; i++) { %>
 											<tr>
-												<td data-id='<%=user[i]._id %>'><%= user[i].local.firstname +" " +user[i].local.lastname  %></td>
+												<td data-id='<%=user[i]._id %>'><%= user[i].local.firstname +' ' +user[i].local.lastname  %></td>
 												<%var total=0; for (var j=0; j < user[i].local.grades.length;j++) {%>
 													<%total+=user[i].local.grades[j];%><%} %>
-												<td><input class="newScore form-control" data-id = '<%=user[i]._id %>'  ></td>
-											
+												<td><input class='newScore form-control' data-id = '<%=user[i]._id %>'  ></td>
+
 											</tr>
 											<%} %>
 										</tbody>
 									</table>
-									<button class="btn  btn-success pull-right"  type="submit">Submit</button>
-                  <div class="form-group">
-                    <div class="col-md-9 col-md-offset-3">
-                      <div id="messagesAddScore"></div>
+									<button class='btn  btn-success pull-right'  type='submit'>Submit</button>
+                  <div class='form-group'>
+                    <div class='col-md-9 col-md-offset-3'>
+                      <div id='messagesAddScore'></div>
                     </div>
                   </div>
                 </form>
@@ -86,23 +86,21 @@
 			</div>
 		</div><!-- /#page-content-wrapper -->
 	</div>
-	<script src="/js/jquery.min.js">
+	<script src='/js/jquery.min.js'>
 	</script>
-	<script src="/js/bootstrap.min.js">
+	<script src='/js/bootstrap.min.js'>
 	</script>
-	</script> <!--<script src="js/jquery.dataTables.js"></script>-->
-	<link href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css" rel="stylesheet" type="text/css">
-	<script charset="utf8" src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.js" type="text/javascript">
+	</script> 
+	<link href='//cdn.datatables.net/1.10.13/css/jquery.dataTables.css' rel='stylesheet' type='text/css'>
+	<script charset='utf8' src='//cdn.datatables.net/1.10.13/js/jquery.dataTables.js' type='text/javascript'>
 	</script>
-	<script charset="utf8" src="//cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js" type="text/javascript">
+	<script charset='utf8' src='//cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js' type='text/javascript'>
 	</script>
-	<script charset="utf8" src="//cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js" type="text/javascript">
+	<script charset='utf8' src='//cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js' type='text/javascript'>
 	</script>
-	<script charset="utf8" src="//cdn.datatables.net/responsive/2.1.1/js/responsive.bootstrap.min.js" type="text/javascript">
-	</script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js" type="text/javascript">
+  <script src='//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js' type='text/javascript'>
 </script>
-	<script src="/js/addTest.js">
+	<script src='/js/addTest.js'>
 	</script>
 </body>
 </html>

@@ -39,7 +39,7 @@
 }
 
 #wrapper.toggled #sidebar-wrapper {
-    width: 250px;
+    width: 1250px;
 }
 
 #page-content-wrapper {
@@ -53,6 +53,9 @@
     margin-right: -250px;
 }
 
+#menu-toggle{
+  margin-top: 50px;
+}
 /* Sidebar Styles */
 
 .sidebar-nav {
@@ -88,7 +91,7 @@
 
 .sidebar-nav > .sidebar-brand {
     height: 65px;
-    font-size: 18px;
+    font-size: 20px;
     line-height: 60px;
 }
 

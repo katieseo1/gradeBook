@@ -1,8 +1,4 @@
 
- body {
-    overflow-x: hidden;
- }
-
 nav.navbar {
   margin-bottom:0;
     margin-top:0;
@@ -21,21 +17,20 @@ nav.navbar {
 .navbar-default .navbar-brand {
     color: white;
 }
-a {
-  color:white;
-  margin-top:10px;
-  font-size:17px;
+.signup-btn{
+    color: white;
+    background-color: #5cb85c;
 }
+
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>.active>a:focus {
-	background-color:transparent;
-	color:white;
+    background-color: transparent;
+    margin-top: 5px;
+    color: white;
 }
 
 .navbar-default {
-   // background-color: 	#5cb85c;//#f8f8f8;
-    background: linear-gradient(to bottom, #6cbf6c 19%, #5cb85c 90%);
-
-    border-color: #e7e7e7;
+background-color: #6cbf6c;
+    //border-bottom:  solid #6cbf6c;
 }
 
 .navbar-nav > li > a, .navbar-brand {
@@ -45,5 +40,23 @@ a {
 }
 
 .sidebar-nav{
-	margin-top:50px;
+	margin-top:80px;
 }
+
+.sidebar-nav li {
+    text-indent: 20px;
+    line-height: 50px;
+    font-size: medium;
+}
+.floating-box {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 20%;
+    height: 30px;
+    margin: 10px;
+}
+.well {
+    background-color: white;
+    border: 0px;
+}
+

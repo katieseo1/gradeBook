@@ -1,6 +1,6 @@
-$("#menu-toggle").click(function(e) {
+$('#menu-toggle').click(function(e) {
 	e.preventDefault();
-	$("#wrapper").toggleClass("toggled");
+	$('#wrapper').toggleClass('toggled');
 });
 
 function handleTestChart() {
@@ -16,14 +16,8 @@ function handleTestEdit() {
 		testEdit($(e.currentTarget).closest('.js-test-edit').attr('data-id'));
 	});
 }
-var testTemplate = ('<div class="well">'
-+ '<span><p class="studentName"></p>'
-+ '<input class="testScore"></input></span>' +
-'<button class="btn btn-default pull-right js-score-edit"><span><i class="glyphicon glyphicon-edit "></i> Edit</span></button>' +
-'<button class="btn btn-default pull-right js-score-delete"><span><i class="glyphicon glyphicon-trash "></i> Delete</span></button>'
-
-
-+ '</div>' + '</div>');
+var testTemplate = ('<div class='well'>' + '<span><p class='studentName floating-box'></p>' + '<input class='testScore formfloating-box'></input></span>' + '<button class='btn floating-box btn-default  js-score-edit'><span><i class='glyphicon glyphicon-edit '></i> Edit</span></button>'
+ + '<button class='btn btn-default floating-box js-score-delete'><span><i class='glyphicon glyphicon-trash '></i> Delete</span></button>' + '</div>' + '</div>');
 
 function displayTestTable(data, testId) {
 	var testTableElement = data.map(function(data) {
@@ -38,18 +32,6 @@ function displayTestTable(data, testId) {
 	$('.well').html(testTableElement)
 }
 
-function displayTestTable2(data) {
-	console.log(data);
-	var testTableElement = data.map(function(data) {
-		var element = $(editTemplate);
-		element.attr('id', data.studentId);
-		element.attr('scoreInfo', data.score);
-		element.find('.studentName').text(data.name);
-		element.find('.testScore').value(data.score);
-		return element;
-	});
-	$('.testEditWell').html(testTableElement);
-}
 
 function handleScoreEdit() {
 	$('.well').on('click', '.js-score-edit', function(e) {
@@ -65,7 +47,6 @@ function handleScoreEdit() {
 		});
 	});
 }
-
 
 function handleScoreDelete() {
 	$('.well').on('click', '.js-score-delete', function(e) {
@@ -90,17 +71,13 @@ function updateScore(test) {
 		contentType: 'application/json',
 		data: JSON.stringify(test),
 		success: function() {
-					window.location.reload(true);
-
-					$('#editTest').modal('hide');
-
+			window.location.reload(true);
+			$('#editTest').modal('hide');
 		}
 	});
 }
 
-
 function deleteScore(test) {
-	alert("HI");
 	$.ajax({
 		url: 'testList/' + test.id,
 		method: 'DELETE',
@@ -108,11 +85,8 @@ function deleteScore(test) {
 		contentType: 'application/json',
 		data: JSON.stringify(test),
 		success: function() {
-		alert("ROYA");
-					window.location.reload(true);
-
-					$('#editTest').modal('hide');
-
+			window.location.reload(true);
+			$('#editTest').modal('hide');
 		}
 	});
 }
@@ -122,15 +96,13 @@ function testEdit(id) {
 		url: 'testList/' + id,
 		method: 'GET',
 		success: function(data) {
-		console.log(data);
-			document.getElementById('testEditLabel').innerHTML = " Test Edit" + id;
+			document.getElementById('testEditLabel').innerHTML = ' Edit scores for Test # ' + id;
 			displayTestTable(data.studentScores, id);
 			$('#editTest').modal('show');
-			//drawTestChart(data.testScores);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("Status: " + textStatus);
-			alert("Error: " + errorThrown);
+			console.log('Status: ' + textStatus);
+			console.log('Error: ' + errorThrown);
 		}
 	});
 }
@@ -140,14 +112,11 @@ function statChart(id) {
 		url: 'testList/' + id,
 		method: 'GET',
 		success: function(data) {
-		alert("HIHIHI");
-		console.log(data);
-			document.getElementById('testStatLabel').innerHTML = " Stat for Test " + id;
+			document.getElementById('testStatLabel').innerHTML = ' Stat for Test ' + id;
 			drawTestChart(data.testScores);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			//alert("Status: " + textStatus);
-			console.log("Error: " + errorThrown);
+			console.log('Error: ' + errorThrown);
 		}
 	});
 }
@@ -160,30 +129,40 @@ function drawTestChart(exam) {
 	google.charts.setOnLoadCallback(drawChart);
 
 	function drawChart() {
-		var data = new google.visualization.DataTable();
-		data.addColumn('number', 'Test');
-		data.addColumn('number', 'Score');
-		data.addRows(exam.length);
+		var grade = {};
+		grade['A'] = 0;
+		grade['B'] = 0;
+		grade['C'] = 0;
+		grade['D'] = 0;
 		for (i = 0; i < exam.length; i++) {
-			data.setCell(i, 0, Number(exam[i]));
-			data.setCell(i, 1, Number(exam[i]));
+			if (exam[i] < 70) {
+				grade['D'] = grade['D'] + 1;
+			} else if (exam[i] < 80) {
+				grade['C'] = grade['C'] + 1;
+			} else if (exam[i] < 90) {
+				grade['B'] = grade['B'] + 1;
+			} else {
+				grade['A'] = grade['A'] + 1;
+			}
 		}
+		var data = google.visualization.arrayToDataTable([
+			['Grades', 'Number of students'],
+			['A', grade['A']],
+			['B', grade['B']],
+			['C', grade['C']],
+			['D', grade['D']]
+		]);
 		var options = {
-			title: 'Test Score',
-			curveType: 'function',
-			legend: {
-				position: 'bottom'
-			},
-			'width': 400,
-			'height': 400
+			title: 'Grades',
+			'width': 500,
+			'height': 500
 		};
-		var chart = new google.visualization.ScatterChart(document.getElementById('curve_chart'));
+		var chart = new google.visualization.PieChart(document.getElementById('curve_chart'));
 		chart.draw(data, options);
 	}
 }
 $(function() {
 	$('#testDT').DataTable();
-	//$('#editTestTable').DataTable();
 	handleScoreDelete();
 	handleScoreEdit();
 	handleTestChart();

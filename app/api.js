@@ -5,21 +5,18 @@ const app = express();
 const User = require('../app/models/user');
 const mongoose = require('mongoose');
 module.exports = function(app) {
-
 	//Display errors
 	function errMsg(err, res) {
 		res.status(500).json({
 			message: 'Internal server error'
 		});
 	}
-
-	//API call for getting  students
+	//Get a list of students
 	app.get('/api/studentList', (req, res) => {
 		User.find().where('local.usergroup').equals('student').exec().then(user => {
 			res.json(user.map(user => user.apiRepr()));
 		}).catch(err => errMsg(err, res));
 	});
-
 	//Get a student's grade
 	app.get('/api/getGrade/:id', (req, res) => {
 		let id = mongoose.Types.ObjectId(req.params.id);
@@ -29,7 +26,6 @@ module.exports = function(app) {
 			});
 		}).catch(err => errMsg(err, res));
 	});
-
 	//Get a test list with avg scores
 	app.get('/api/testStat', (req, res) => {
 		let maxTstNumber = 0;
@@ -46,7 +42,6 @@ module.exports = function(app) {
 			});
 		}).catch(err => errMsg(err, res));
 	});
-
 	//Get a test distribution
 	app.get('/api/testList/:id', (req, res) => {
 		let testId = req.params.id;
@@ -61,7 +56,7 @@ module.exports = function(app) {
 						if (user[i].local.grades[k].testNumber == testId) {
 							testScores.push(user[i].local.grades[k].testScore);
 							obj['score'] = user[i].local.grades[k].testScore;
-							obj['name'] = user[i].local.firstname + " " + user[i].local.lastname;
+							obj['name'] = user[i].local.firstname + ' ' + user[i].local.lastname;
 							obj['studentId'] = mongoose.Types.ObjectId(user[i].id);
 							studentScores.push(obj);
 						}
@@ -74,99 +69,6 @@ module.exports = function(app) {
 			});
 		}).catch(err => errMsg(err, res));
 	});
-
-//*******POST ENDPOINT*******************//
-	//Add a student
-
-	/*
-	app.post('/api/addStudent', (req, res) => {
-		console.log(req.body);
-		const requiredFields = ['firstname', 'lastname'];
-		requiredFields.forEach(field => {
-			if (!(field in req.body)) {
-				res.status(400).json({
-					error: `Missing "${field}" in request body`
-				});
-			}
-		});
-		let newUser = new User();
-		newUser.local.firstname = req.body.firstname;
-		newUser.local.lastname = req.body.lastname;
-		newUser.local.usergroup = "student";
-		newUser.save(function(err) {});
-		console.log(newUser);
-	});*/
-
-
-	//Add student
-	app.post('/api/addStudent', (req, res) => {
-		const requiredFields = ['firstname', 'lastname'];
-		requiredFields.forEach(field => {
-			if (!(field in req.body)) {
-				res.status(400).json({
-					error: `Missing "${field}" in request body`
-				});
-			}
-		});
-		User.create({
-			local: {
-				firstname: req.body.firstname,
-				lastname: req.body.lastname,
-				usergroup: "student"
-			}
-		}).then(user => {
-			res.json(user.apiRepr());
-		}).catch(err => errMsg(err, res));
-	});
-
-	// Add new test scores in User and create new scores in TestScore collection
-	app.post('/api/addTestScore', (req, res) => {
-
-		let testNumber = req.body[req.body.length - 1][1];
-		let toUpdate2 = {};
-		let id = null;
-		for (i = 0; i < req.body.length - 1; i++) {
-			id = mongoose.Types.ObjectId(req.body[i][0]);
-			toUpdate2 = {};
-			toUpdate2['local.grades'] = {
-				"testNumber": testNumber,
-				"testScore": req.body[i][1]
-			};
-			User.findByIdAndUpdate(id, {
-				$push: toUpdate2
-			},{
-				new: true
-			}
-		).exec().then(user => {
-				res.json(user.apiRepr()).end();
-			}).catch(err => errMsg(err, res));
-		}
-	});
-
-
-
-
-	// Update a student info
-	app.put('/api/student/:id', (req, res) => {
-		let id = mongoose.Types.ObjectId(req.params.id);
-
-		const toUpdate = {};
-		const updateableFields = ['local.firstname', 'local.lastname'];
-		toUpdate['local.firstname'] = req.body['firstname'];
-		toUpdate['local.lastname'] = req.body['lastname'];
-		User.findByIdAndUpdate(id, {
-			$set: toUpdate
-		}, {
-			new: true
-		}).exec().then(user => res.json(user.apiRepr()).end()).catch(err => errMsg(err, res));
-	});
-
-	//Delete a student
-	app.delete('/api/student/:id', (req, res) => {
-		let id = mongoose.Types.ObjectId(req.params.id);
-		User.findByIdAndRemove(id).exec().then(user => res.status(204).end()).catch(err => errMsg(err, res));
-	});
-
 	// Prepare a page for adding test score
 	app.get('/api/addTest', (req, res) => {
 		User.find().where('local.usergroup').equals('student').exec().then(user => {
@@ -180,16 +82,68 @@ module.exports = function(app) {
 					}
 				}
 			}
-			res.json({
+			res.status(200).json({
 				user: user,
 				nextTestNumber: nextTestNumber + 1
 			});
 		}).catch(err => errMsg(err, res));
 	});
-
-
-
-
+	//*******POST ENDPOINT*******************//
+	//Add student
+	app.post('/api/addStudent', (req, res) => {
+		const requiredFields = ['firstname', 'lastname'];
+		requiredFields.forEach(field => {
+			if (!(field in req.body)) {
+				res.status(400).json({
+					error: `Missing '${field}' in request body`
+				});
+			}
+		});
+		User.create({
+			local: {
+				firstname: req.body.firstname,
+				lastname: req.body.lastname,
+				usergroup: 'student'
+			}
+		}).then(user => {
+			res.json(user.apiRepr());
+		}).catch(err => errMsg(err, res));
+	});
+	// Add test scores
+	app.post('/api/addTestScore', (req, res) => {
+		let testNumber = req.body[req.body.length - 1][1];
+		let toUpdate2 = {};
+		let id = null;
+		for (i = 0; i < req.body.length - 1; i++) {
+			id = mongoose.Types.ObjectId(req.body[i][0]);
+			toUpdate2 = {};
+			toUpdate2['local.grades'] = {
+				'testNumber': testNumber,
+				'testScore': req.body[i][1]
+			};
+			User.findByIdAndUpdate(id, {
+				$push: toUpdate2
+			}, {
+				new: true
+			}).exec().then(user => {
+				res.json(user.apiRepr()).end();
+			}).catch(err => errMsg(err, res));
+		}
+	});
+	//*******PUT ENDPOINT*******************//
+	// Update a student info
+	app.put('/api/student/:id', (req, res) => {
+		let id = mongoose.Types.ObjectId(req.params.id);
+		const toUpdate = {};
+		const updateableFields = ['local.firstname', 'local.lastname'];
+		toUpdate['local.firstname'] = req.body['firstname'];
+		toUpdate['local.lastname'] = req.body['lastname'];
+		User.findByIdAndUpdate(id, {
+			$set: toUpdate
+		}, {
+			new: true
+		}).exec().then(user => res.json(user.apiRepr()).end()).catch(err => errMsg(err, res));
+	});
 	//Update test score
 	app.put('/api/testList/:id', (req, res) => {
 		const toUpdate = {};
@@ -208,29 +162,25 @@ module.exports = function(app) {
 					origScore[i].testScore = testScore;
 				}
 			}
-
 			toUpdate['local.grades'] = origScore;
 			User.findByIdAndUpdate(mongoose.Types.ObjectId(req.params.id), {
 				$set: toUpdate
 			}, {
-			new: true
-		}).exec().then(user => {
-
-
+				new: true
+			}).exec().then(user => {
 				res.json({
 					user: user
 				})
-			}).catch(err => res.status(500).json({
-				message: 'Internal server error'
-			}));
-		}).catch(err => res.status(500).json({
-			message: 'Internal server error'
-		}));
+			}).catch(err => errMsg(err, res));
+		}).catch(err => errMsg(err, res));
 	});
-
-
-
-	//Delete a score of the teset
+	//*******DELETE ENDPOINT*******************//
+	//Delete a student
+	app.delete('/api/student/:id', (req, res) => {
+		let id = mongoose.Types.ObjectId(req.params.id);
+		User.findByIdAndRemove(id).exec().then(user => res.status(204).end()).catch(err => errMsg(err, res));
+	});
+	//Delete a score of the test
 	app.delete('/api/testList/:id', (req, res) => {
 		const toUpdate = {};
 		let origScore = [];
@@ -249,18 +199,16 @@ module.exports = function(app) {
 			toUpdate['local.grades'] = origScore;
 			User.findByIdAndUpdate(mongoose.Types.ObjectId(req.params.id), {
 				$set: toUpdate
-			}).exec().then(user => {
-				res.json({
-					user: user
-				});
-			}).catch(err => res.status(500).json({
+			}, {
+				new: true
+			}).exec().catch(err => res.status(500).json({
 				message: 'Internal server error'
 			}));
-		}).catch(err => res.status(500).json({
-			message: 'Internal server error'
-		}));
+			res.status(204).json({
+				user: user.apiRepr()
+			});
+		}).catch(err => errMsg(err, res));
 	});
-
 	//Calculate Avg score for each Test
 	function calculateAvg(maxTstNumber, user) {
 		let stat = [];

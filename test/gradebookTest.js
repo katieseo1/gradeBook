@@ -1,24 +1,20 @@
-const  dotenv = require('dotenv').load();
-
+const dotenv = require('dotenv').load();
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const faker = require('faker');
 const mongoose = require('mongoose');
 const should = chai.should();
-const TEST_DATABASE_URL=process.env.tst;
+const TEST_DATABASE_URL = process.env.tst;
 const User = require('../app/models/user');
-
+const numOfSeedData=3;
 const {
 	closeServer,
 	runServer,
 	app
 } = require('../server');
-
 chai.use(chaiHttp);
 let seedData = [];
 let stat = [];
-
-
 
 describe('Gradebook API resource', function() {
 	before(function() {
@@ -28,8 +24,6 @@ describe('Gradebook API resource', function() {
 		return seedTestData();
 	});
 	afterEach(function() {
-		// tear down database so we ensure no state from this test
-		// effects any coming after.
 		return tearDownDb();
 	});
 	after(function() {
@@ -46,12 +40,9 @@ describe('Gradebook API resource', function() {
 				res.body.should.have.length.of.at.least(1);
 				return User.count().where('local.usergroup').equals('student');
 			}).then(count => {
-				// the number of returned posts should be same
-				// as number of posts in DB
 				res.body.should.have.length.of(count);
 			});
 		});
-
 
 		it('should return posts with right fields', function() {
 			// Strategy: Get back all students, and ensure they have expected keys
@@ -62,11 +53,9 @@ describe('Gradebook API resource', function() {
 				res.body.should.be.a('array');
 				res.body.should.have.length.of.at.least(1);
 				res.body.forEach(function(student) {
-				student.should.be.a('object');
-				student.should.include.keys('id', 'usergroup', 'email', 'firstname', 'lastname', 'grades');
+					student.should.be.a('object');
+					student.should.include.keys('id', 'usergroup', 'email', 'firstname', 'lastname', 'grades');
 				});
-				// just check one of the posts that its values match with those in db
-				// and we'll assume it's true for rest
 				resStudentList = res.body[0];
 				return User.findById(resStudentList.id).exec();
 			}).then(student => {
@@ -99,11 +88,9 @@ describe('Gradebook API resource', function() {
 			})
 		});
 
-
 		it('should get scores for a test', function() {
-			// strategy: prove the number scores of a test we got back is equal to the number of scores
+			//prove the number scores of a test we got back is equal to the number of scores
 			//       from seeded data for db
-
 			return User.findOne().exec().then(user => {
 				return chai.request(app).get(`/api/testList/1`);
 			}).then(res => {
@@ -114,23 +101,31 @@ describe('Gradebook API resource', function() {
 				res.body.testScores[0].should.equal(getTestScore(seedData, 1)[0]);
 			})
 		});
+
+		// Should return next test number from the test number we got back
+		it('should return next test number', function() {
+			let res;
+			return chai.request(app).get('/api/addTest').then(_res => {
+				res = _res;
+				res.should.have.status(200);
+				//Next test number should be 4 based on seed data
+				res.body.nextTestNumber.should.equal(numOfSeedData+1);
+			})
+		});
 	});
 
+
+	//********************* POST ENDPOINT **************//
 	describe('POST endpoint', function() {
 		this.timeout(5000);
-
 		let newStudent;
-		// strategy: make a POST request with data,
-		// then prove that the student  we get back has
-		// right keys, and that `id` is there (which means
-		// the data was inserted into db)
+		// strategy: From a new student returned by request contains data we sent
 		it('should add a student', function() {
 			newStudent = {
 				firstname: faker.name.firstName(),
 				lastname: faker.name.lastName()
 			};
 			return chai.request(app).post('/api/addStudent').send(newStudent).then(function(res) {
-
 				res.should.be.json;
 				res.body.should.be.a('object');
 				res.body.id.should.not.be.null;
@@ -141,41 +136,29 @@ describe('Gradebook API resource', function() {
 			});
 		});
 
-		// strategy:
-		//  1. Get an existing student from db
-		//  2. Make a post request to add grade scores to the existing student
-		//  3. Prove student returned by request contains data we sent
-		//  4. Prove student in db is correctly updated
-
 		it('should add test scores', function() {
-
-			let testScores=[];
+			// strategy: From added test scores returned by request contains data we sent
+			let testScores = [];
 			let aUserId;
 			let numOfGrades;
 			return User.findOne().exec().then(user => {
 				testScores.push([user.id, 100])
-				testScores.push(["testNumber", 99]);
-				numOfGrades=user.local.grades.length+1;
-				aUserId=user.id;
-
+				testScores.push(['testNumber', 99]);
+				numOfGrades = user.local.grades.length + 1;
+				aUserId = user.id;
 				return chai.request(app).post(`/api/addTestScore/`).send(testScores);
 			}).then(res => {
-						res.body.should.be.a('object');
-						res.body.grades.should.have.length(numOfGrades);
-						res.body.grades[numOfGrades-1].testNumber.should.equal(99);
-
-						return User.findById(aUserId).exec();
-					});
+				res.body.should.be.a('object');
+				res.body.grades.should.have.length(numOfGrades);
+				res.body.grades[numOfGrades - 1].testNumber.should.equal(99);
+			});
 		});
 	});
 
 	describe('PUT endpoint', function() {
 		// strategy:
-		//  1. Get an existing student from db
-		//  2. Make a PUT request to update that post
-		//  3. Prove student returned by request contains data we sent
-		//  4. Prove student in db is correctly updated
-		it('should update fields you send over', function() {
+		// From an existing student returned by request contains data we sent
+		it('should update fields we send over (Updating a student)', function() {
 			const updateData = {
 				firstname: 'foo',
 				lastname: 'bar'
@@ -188,15 +171,11 @@ describe('Gradebook API resource', function() {
 				res.body.should.be.a('object');
 				res.body.firstname.should.equal(updateData.firstname);
 				res.body.lastname.should.equal(updateData.lastname);
-				return User.findById(res.body.id).exec();
-			}).then(post => {});
+			});
 		});
 
-		// strategy:
-		//  1. Get an existing test from db
-		//  2. Make a PUT request to update that test score
-		//  3. Prove test returned by request contains data we sent
-		it('should update test score you send over', function() {
+		// strategy: Prove  an existing test returned by request contains data we sent
+		it('should update test score we send over', function() {
 			const updateData = {
 				testNumber: 1,
 				testScore: 100
@@ -205,14 +184,13 @@ describe('Gradebook API resource', function() {
 				updateData.id = user.id;
 				return chai.request(app).put(`/api/testList/${user.id}`).send(updateData);
 			}).then(res => {
-
 				res.body.should.be.a('object');
 				res.body.user.local.grades[0].testScore.should.equal(updateData.testScore);
-				return User.findById(res.body.id).exec();
 			})
 		});
 	});
 
+	//Delete a student by id and check the student in DB
 	describe('DELETE endpoint', function() {
 		it('should delete a student by id', function() {
 			let stu;
@@ -226,10 +204,26 @@ describe('Gradebook API resource', function() {
 				should.not.exist(_stu);
 			});
 		});
+
+		//Delete a score of a user and compare the number of scores of the student in DB
+		it('should delete a score of test', function() {
+			const deleteData = {
+				testNumber: 1
+			};
+			return User.findOne().exec().then(user => {
+				deleteData.id = user.id;
+				deleteData.testScore = user.local.grades[0].testScore;
+				deleteData.numOfScores = user.local.grades.length;
+				return chai.request(app).delete(`/api/testList/${user.id}`).send(deleteData);
+			}).then(res => {
+				res.should.have.status(204);
+				return User.findById(deleteData.id).exec().then(user => {
+					user.local.grades.length.should.equal(deleteData.numOfScores - 1);
+				});
+			});
+		});
 	});
 });
-
-
 
 // deletes the entire database
 function tearDownDb() {
@@ -239,53 +233,48 @@ function tearDownDb() {
 	});
 }
 
-
-
 //Use Faker library to populate test data
 function seedTestData() {
 	seedData = [];
 	stat = [];
-	for (let i = 1; i <= 2; i++) {
+	for (let i = 1; i <= numOfSeedData; i++) {
 		seedData.push({
 			local: {
 				email: faker.internet.userName(),
 				firstname: faker.name.firstName(),
 				lastname: faker.name.firstName(),
 				password: faker.internet.password(),
-				usergroup: "student",
+				usergroup: 'student',
 				grades: [{
-					"testNumber": 1,
-					"testScore": Math.floor((Math.random() * 100) + 1)
+					'testNumber': 1,
+					'testScore': Math.floor((Math.random() * 100) + 1)
 				}, {
-					"testNumber": 2,
-					"testScore": Math.floor((Math.random() * 100) + 1)
+					'testNumber': 2,
+					'testScore': Math.floor((Math.random() * 100) + 1)
 				}, {
-					"testNumber": 3,
-					"testScore": Math.floor((Math.random() * 100) + 1)
+					'testNumber': 3,
+					'testScore': Math.floor((Math.random() * 100) + 1)
 				}]
 			}
 		});
 	}
 	return User.insertMany(seedData);
 }
-
-
 // get test scores
 function getTestScore(seedData, testId) {
 	let testScores = [];
-		for (i = 0; i < seedData.length; i++) {
-			if (seedData[i].local.grades) {
-				cnt += 1;
-				for (k = 0; k < seedData[i].local.grades.length; k++) {
-					if (seedData[i].local.grades[k].testNumber == testId) {
-						testScores.push (seedData[i].local.grades[k].testScore);
-					}
+	for (i = 0; i < seedData.length; i++) {
+		if (seedData[i].local.grades) {
+			cnt += 1;
+			for (k = 0; k < seedData[i].local.grades.length; k++) {
+				if (seedData[i].local.grades[k].testNumber == testId) {
+					testScores.push(seedData[i].local.grades[k].testScore);
 				}
 			}
+		}
 	} //for looop
 	return testScores;
 }
-
 //get stat
 function getStat(seedData) {
 	let maxTstNumber = 0;

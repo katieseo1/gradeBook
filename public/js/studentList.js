@@ -1,6 +1,6 @@
-$("#menu-toggle").click(function(e) {
+$('#menu-toggle').click(function(e) {
 	e.preventDefault();
-	$("#wrapper").toggleClass("toggled");
+	$('#wrapper').toggleClass('toggled');
 });
 
 function deleteStudent(id) {
@@ -20,11 +20,10 @@ function handleStudentDelete() {
 	});
 }
 
-function editStudent(id,lastname,firstname) {
-	$("#editFirstName").val(firstname);
-	$("#editLastName").val(lastname);
-	$("#editInput").modal();
-
+function editStudent(id, lastname, firstname) {
+	$('#editFirstName').val(firstname);
+	$('#editLastName').val(lastname);
+	$('#editInput').modal();
 	$('#editInput').submit(function(e) {
 		e.preventDefault();
 		$('#editInput').modal('hide');
@@ -37,7 +36,6 @@ function editStudent(id,lastname,firstname) {
 }
 
 function updateStudent(student) {
-	console.log(student);
 	$.ajax({
 		url: 'student/' + student.id,
 		method: 'PUT',
@@ -45,9 +43,9 @@ function updateStudent(student) {
 		contentType: 'application/json',
 		data: JSON.stringify(student),
 		success: function(data) {
-			$("#editPost").bootstrapValidator('resetForm', true);
-			$("#editPost").find('.has-error').removeClass("has-error");
-			$("#editPost").find('.has-success').removeClass("has-success");
+			$('#editPost').bootstrapValidator('resetForm', true);
+			$('#editPost').find('.has-error').removeClass('has-error');
+			$('#editPost').find('.has-success').removeClass('has-success');
 			$('#editPost').find('.form-control-feedback').remove();
 			window.location.reload(true);
 		}
@@ -57,8 +55,7 @@ function updateStudent(student) {
 function handleStudentEdit() {
 	$('.studentTable').on('click', '.js-student-edit', function(e) {
 		e.preventDefault();
-		editStudent($(e.currentTarget).closest('.js-student-edit').attr('data-id'),
-			$(e.currentTarget).closest('.js-student-edit').attr('data-lastName'),$(e.currentTarget).closest('.js-student-edit').attr('data-firstName'));
+		editStudent($(e.currentTarget).closest('.js-student-edit').attr('data-id'), $(e.currentTarget).closest('.js-student-edit').attr('data-lastName'), $(e.currentTarget).closest('.js-student-edit').attr('data-firstName'));
 	});
 }
 
@@ -68,16 +65,15 @@ function addStudent(student) {
 		url: '/addStudent',
 		data: JSON.stringify(student),
 		success: function(data) {
-			$("#editPost").bootstrapValidator('resetForm', true);
-			$("#editPost").find('.has-error').removeClass("has-error");
-			$("#editPost").find('.has-success').removeClass("has-success");
+			$('#editPost').bootstrapValidator('resetForm', true);
+			$('#editPost').find('.has-error').removeClass('has-error');
+			$('#editPost').find('.has-success').removeClass('has-success');
 			$('#editPost').find('.form-control-feedback').remove();
 			window.location.reload(true);
 		},
 		dataType: 'json',
 		contentType: 'application/json'
 	});
-
 	window.location.reload(true);
 	return false;
 }
@@ -86,7 +82,6 @@ function handleAddStudent() {
 	$('#addStudentForm').submit(function(e) {
 		e.preventDefault();
 		e.stopImmediatePropagation();
-
 		addStudent({
 			firstname: $(e.currentTarget).find('#firstname').val().trim(),
 			lastname: $(e.currentTarget).find('#lastname').val().trim()
@@ -107,7 +102,7 @@ function progressChart(id) {
 		url: 'getGrade/' + id,
 		method: 'GET',
 		success: function(data) {
-			document.getElementById('studentProgressLabel').innerHTML = "Progress Information for " + data.firstname + " " + data.lastname;
+			document.getElementById('studentProgressLabel').innerHTML = 'Progress Information for ' + data.user.firstname + ' ' + data.user.lastname;
 			drawGradeChart(data.user.grades);
 		}
 	});
@@ -201,5 +196,4 @@ $(function() {
 	handleStudentProgress();
 	validateEditStudentForm();
 	validateAddStudentForm();
-
 });
