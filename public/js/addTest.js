@@ -25,7 +25,7 @@ function addTestScore(score) {
 }
 
 function addTestScoreDB() {
-	let testScores = [];
+	var testScores = [];
 	var table = document.getElementById('studentList');
 	var testNumber = $(document.getElementById('testNumber')).attr('data-id');
 	for (var r = 1, n = table.rows.length; r < n; r++) {
