@@ -166,6 +166,7 @@ function validateEditStudentForm() {
 }
 $(function() {
 	$('#studentListDT').DataTable();
+	
 	handleAddStudent();
 	handleStudentDelete();
 	handleStudentEdit();

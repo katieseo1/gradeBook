@@ -3,6 +3,7 @@ function addTestScore(score) {
 		method: 'POST',
 		url: '/addTestScore',
 		data: JSON.stringify(score),
+        async:true,
 		success: function(data) {
 			bootbox.alert({
 	 		size: 'small',

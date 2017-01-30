@@ -19,7 +19,7 @@ function handleTestEdit() {
 var testTemplate = ('<div class=\'well\'>' +
 '<span><p class=\'studentName floating-box\'></p>' +
  '<input class=\'testScore formfloating-box\' type=\'number\'></input></span>' +
- '<button class=\'btn floating-box btn-default  js-score-edit\'><span><i class=\'glyphicon glyphicon-edit\'></i> Edit</span></button>'
+ '<button class=\'btn floating-box btn-default  js-score-edit\'><span><i class=\'glyphicon glyphicon-save\'></i> Save</span></button>'
  + '<button class=\'btn btn-default floating-box js-score-delete\'><span><i class=\'glyphicon glyphicon-trash \'></i> Delete</span></button>'
  + '</div>' + '</div>');
 
@@ -170,7 +170,17 @@ function drawTestChart(exam) {
 
 
 $(function() {
-	$('#testDT').DataTable();
+	$('#testDT').dataTable({
+		"columnDefs": [{
+			"orderable": false,
+			"targets": 1
+		},
+		{
+			"orderable": false,
+			"targets": 2
+		}]
+	});
+
 	handleScoreDelete();
 	handleScoreEdit();
 	handleTestChart();

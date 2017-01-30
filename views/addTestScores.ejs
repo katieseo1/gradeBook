@@ -29,10 +29,13 @@
 		<div id='sidebar-wrapper'>
 			<ul class='sidebar-nav'>
 				<li>
+					<a href='/studentList'>Student List</a>
+				</li>
+				<li>
 					<a href='/testStat'>Test Statistic</a>
 				</li>
 				<li>
-					<a href='/studentList'>Student List</a>
+					<a href='/addTest'>Add Test Score</a>
 				</li>
 			</ul>
 		</div><!-- /#sidebar-wrapper -->
@@ -66,7 +69,7 @@
 												<td data-id='<%=user[i]._id %>'><%= user[i].local.firstname +' ' +user[i].local.lastname  %></td>
 												<%var total=0; for (var j=0; j < user[i].local.grades.length;j++) {%>
 													<%total+=user[i].local.grades[j];%><%} %>
-												<td><input class='newScore form-control' data-id = '<%=user[i]._id %>'  name='score'></td>
+												<td><input class='newScore form-control' data-id = '<%=user[i]._id %>'  name='score' type='number' min="1" ></td>
 
 											</tr>
 											<%} %>
