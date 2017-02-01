@@ -30,9 +30,14 @@ You can access Gradebook at https://agile-sierra-40800.herokuapp.com
 * Install the dependencies: `npm install`
 
 
-## Working on the project
+## Running the project
 * Move into the project directory: `cd ~/YOUR_PROJECTS_DIRECTORY/YOUR_PROJECT_NAME`
 * Run the development task: `npm start`
     * Starts a server running at http://localhost:8080
 * To run the test : 'npm test'
+
+## Demo Login
+* username : demo
+* password : demo1234
+
     
