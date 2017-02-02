@@ -40,11 +40,7 @@ describe('Gradebook API resource', function() {
 	//Get endpoint for addTest & student
 	describe('GET endpoint', function() {
 		it('should return all existing posts', function() {
-			// strategy:
-			//    1. get back all students returned by by GET request to `/studentList`
-			//    2. prove res has right status, data type
-			//    3. prove the number of studentList we got back is equal to number
-			//       in db.
+			
 			let res;
 			return chai.request(app).get('/studentList').then(_res => {
 				res = _res;
@@ -72,8 +68,7 @@ describe('Gradebook API resource', function() {
 				student.should.be.a('object');
 				student.should.include.keys('id', 'usergroup', 'email', 'firstname', 'lastname', 'grades');
 				});
-				// just check one of the posts that its values match with those in db
-				// and we'll assume it's true for rest
+				
 				resStudentList = res.body[0];
 				return User.findById(resStudentList.id).exec();
 			}).then(student => {
@@ -94,11 +89,7 @@ describe('Gradebook API resource', function() {
 		});
 
 		it('should return test stat', function() {
-			// strategy:
-			//    1. get back all tests returned by by GET request to `/testList`
-			//    2. prove res has right status, length
-			//    3. prove test stat we got back is equal to stat
-			//       from seeded data.
+			
 			let res;
 			return chai.request(app).get('/testList').then(_res => {
 				res = _res;
@@ -112,11 +103,7 @@ describe('Gradebook API resource', function() {
 
 
 		it('should get score for a test', function() {
-			// strategy:
-			//    1. get back all scores of a test returned by by GET request to `/testList/:id`
-			//    2. prove res has right status, data type
-			//    3. prove the number scores of a test we got back is equal to the number of scores
-			//       from seeded data for db
+			
 
 			return User.findOne().exec().then(user => {
 				return chai.request(app).get(`/testList/1`);
@@ -132,10 +119,7 @@ describe('Gradebook API resource', function() {
 
 	describe('POST endpoint', function() {
 		let newStudent;
-		// strategy: make a POST request with data,
-		// then prove that the student  we get back has
-		// right keys, and that `id` is there (which means
-		// the data was inserted into db)
+		
 		it('should add a student', function() {
 			newStudent = {
 				firstname: faker.name.firstName(),
@@ -152,11 +136,7 @@ describe('Gradebook API resource', function() {
 			});
 		});
 
-		// strategy:
-		//  1. Get an existing student from db
-		//  2. Make a post request to add grade scores to the student
-		//  3. Prove student returned by request contains data we sent
-		//  4. Prove student in db is correctly updated
+		
 
 		it('should add test scores', function() {
 
@@ -181,11 +161,7 @@ describe('Gradebook API resource', function() {
 	});
 
 	describe('PUT endpoint', function() {
-		// strategy:
-		//  1. Get an existing student from db
-		//  2. Make a PUT request to update that post
-		//  3. Prove student returned by request contains data we sent
-		//  4. Prove student in db is correctly updated
+		
 		it('should update fields you send over', function() {
 			const updateData = {
 				firstname: 'foo',
@@ -203,10 +179,7 @@ describe('Gradebook API resource', function() {
 			}).then(post => {});
 		});
 
-		// strategy:
-		//  1. Get an existing test from db
-		//  2. Make a PUT request to update that test score
-		//  3. Prove test returned by request contains data we sent
+		
 		it('should update test score you send over', function() {
 			const updateData = {
 				testNumber: 1,
@@ -225,11 +198,7 @@ describe('Gradebook API resource', function() {
 	});
 
 	describe('DELETE endpoint', function() {
-		// strategy:
-		//  1. get a student
-		//  2. make a DELETE request for that a student's id
-		//  3. assert that response has right status code
-		//  4. prove that post with the id doesn't exist in db anymore
+		
 		it('should delete a student by id', function() {
 			let stu;
 			return User.findOne().exec().then(_stu => {
@@ -239,10 +208,7 @@ describe('Gradebook API resource', function() {
 				res.should.have.status(204);
 				return User.findById(stu.id);
 			}).then(_stu => {
-				// when a variable's value is null, chaining `should`
-				// doesn't work. so `_post.should.be.null` would raise
-				// an error. `should.be.null(_post)` is how we can
-				// make assertions about a null value.
+				
 				should.not.exist(_stu);
 			});
 		});
