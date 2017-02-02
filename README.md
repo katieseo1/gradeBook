@@ -36,7 +36,7 @@ You can access Gradebook at https://agile-sierra-40800.herokuapp.com
     * Starts a server running at http://localhost:8080
 * To run the test : 'npm test'
 
-## Demo Login
+## Demo Login Information
 * username : demo
 * password : demo1234
 
