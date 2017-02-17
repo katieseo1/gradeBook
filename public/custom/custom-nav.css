@@ -22,15 +22,16 @@ nav.navbar {
     background-color: #5cb85c;
 }
 
-.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>.active>a:focus {
+.navbar-default .navbar-nav>.active>a, 
+.navbar-default .navbar-nav>.active>a:hover, 
+.navbar-default .navbar-nav>.active>a:focus {
     background-color: transparent;
     margin-top: 5px;
     color: white;
 }
 
 .navbar-default {
-background-color: #6cbf6c;
-    //border-bottom:  solid #6cbf6c;
+    background-color: #6cbf6c;
 }
 
 .navbar-nav > li > a, .navbar-brand {

@@ -5,21 +5,25 @@
 	<link href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css' rel='stylesheet'>
 	<link href='//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css' rel='stylesheet'>
 	<link href='/custom/home.css' rel='stylesheet'>
-
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
 	<nav class='navbar navbar-default navbar-static-top'>
 		<div class='container'>
 			<div class='navbar-header'>
 				<button class='navbar-toggle collapsed' data-toggle='collapse' type='button'>
-					<span class='sr-only'>Toggle navigation</span> <span class='icon-bar'></span>
-					<span class='icon-bar'></span>
-					<span class='icon-bar'></span>
+					<a class='signup' href='/signup'>Signup</a>
 				</button>
-					<span><a class='navbar-brand' href='/' rel='home'>
-					<img src='/img/gradeBookBlack.png' style='max-height:50px; margin-right: 2px;'> GradeBook</a></span>
+					<span>
+						<a class='navbar-brand' href='/' rel='home'>
+							<img src='/img/gradeBookBlack.png' style='max-height:50px; margin-right: 2px;'>
+							GradeBook
+						</a>
+					</span>
 			</div>
-			<div class='navbar-collapse collapse' >
+			<div class='navbar-collapse collapse'>
 				<ul class='nav navbar-nav navbar-right'>
 					<li class='active signup-btn'>
 						<a class='signup' href='/signup'>Signup</a>
@@ -31,8 +35,8 @@
 	<div class='container-fluid breadcrumb'>
 		<div class='row'>
 			<div class='col-lg-6 text-center'>
-				<h1>GradeBook</h1>
-				<h3>Help teachers to manager students' grade</h3>
+				<h1 class='intro'>GradeBook</h1>
+				<h3 class='intro'>Help teachers to manage students' grade</h3>
 			</div>
 			<div class='col-lg-6'>
 				<!-- LOGIN FORM -->
@@ -44,14 +48,40 @@
 						</div><%} %>
 						<form action='/login' method='post'>
 							<div class='form-group'>
-								<label>Email/username</label> <input class='form-control' value='demo' name='email' type='text'>
+								<label>Email/username</label> <input class='form-control' name='email' type='text' value='demo'>
 							</div>
 							<div class='form-group'>
-								<label>Password</label> <input class='form-control' value='demo1234' name='password' type='password'>
+								<label>Password</label> <input class='form-control' name='password' type='password' value='demo1234'>
 							</div><button class='btn btn-primary btn pull-right' type='submit'>Login</button>
 							<p>Need an account? <a href='/signup' style='color:white'>Signup</a></p>
 						</form>
 					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4 col-md-6 text-center">
+				<div class="service-box">
+					<i class="fa fa-4x fa-pencil-square-o text-primary sr-icons"></i>
+					<h3>Easy to Use</h3>
+					<p>Clean and simple interface</p>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-6 text-center">
+				<div class="service-box">
+					<i class="fa fa-4x fa-bar-chart text-primary sr-icons"></i>
+					<h3>Student Progress</h3>
+					<p>Track student test performance</p>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-6 text-center">
+				<div class="service-box">
+					<i class="fa fa-4x fa-plane text-primary sr-icons"></i>
+					<h3>Online Access</h3>
+					<p>Use your gradebook from anywhere!</p>
 				</div>
 			</div>
 		</div>

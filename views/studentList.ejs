@@ -8,6 +8,7 @@
 	<link href='//cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css' rel='stylesheet'>
 	<link href='/custom/simple-sidebar.css' rel='stylesheet'>
 	<link href='/custom/custom-nav.css' rel='stylesheet'>
+	<link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
 </head>
 <body>
 	<nav class='navbar navbar-default navbar-fixed-top'>
@@ -34,12 +35,6 @@
 				<li>
 					<a href='/testStat'>Test Statistic</a>
 				</li>
-				<li>
-					<a href='/addTest'>Add Test Score</a>
-				</li>
-				<li>
-					<a data-target='#addStudent' data-toggle='modal' href='#'>Add Student</a>
-				</li>
 			</ul>
 		</div><!-- /#sidebar-wrapper -->
 		<!-- Page Content -->
@@ -48,7 +43,9 @@
 				<div class='row'>
 					<div class='col-lg-12'>
 						<a class='btn btn-default' href='#menu-toggle' id='menu-toggle'><i class='fa fa-arrows-h'></i></a>
+						<a data-target='#addStudent' data-toggle='modal' class = 'pull-right btn btn-success btn-top' href='#' '>Add New Student</a>
 						<h1 class='text-center' style='color:grey'>Student List</h1>
+
 						<table class='studentTable table table-striped' id='studentListDT'>
 							<thead>
 								<tr>

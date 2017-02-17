@@ -117,7 +117,7 @@ function statChart(id) {
 		url: 'testList/' + id,
 		method: 'GET',
 		success: function(data) {
-			document.getElementById('testStatLabel').innerHTML = ' Stat for Test ' + id;
+			document.getElementById('testStatLabel').innerHTML = ' Grade distribution for Test ' + id;
 			drawTestChart(data.testScores);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -152,14 +152,23 @@ function drawTestChart(exam) {
 		}
 		var data = google.visualization.arrayToDataTable([
 			['Grades', 'Number of students'],
-			['A', grade['A']],
-			['B', grade['B']],
-			['C', grade['C']],
-			['D', grade['D']]
+			['Grade A', grade['A']],
+			['Grade B', grade['B']],
+			['Grade C', grade['C']],
+			['Grade D', grade['D']]
 		]);
+		var screenSize = $( window ).width();
+		var chartWidth ;
+		if (screenSize >800){
+			chartWidth = 500;
+		}
+		else {
+			chartWidth = 350;
+		}
+
 		var options = {
 			title: 'Grades',
-			'width': 500,
+			'width': chartWidth,
 			'height': 500
 		};
 		var chart = new google.visualization.PieChart(document.getElementById('curve_chart'));

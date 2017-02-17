@@ -103,8 +103,17 @@
     color: grey;
     background: none;
 }
-
+.btn-top{
+  margin-top: 50px;
+}
+h1 {
+  margin-bottom: 50px;
+  margin-top: 20px;
+}
 @media(min-width:768px) {
+  h1 {
+      margin-bottom :10px;
+    }
     #wrapper {
         padding-left: 250px;
     }

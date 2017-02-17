@@ -8,6 +8,7 @@
 	<link href='//cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css' rel='stylesheet'>
 	<link href='/custom/simple-sidebar.css' rel='stylesheet'>
 	<link href='/custom/custom-nav.css' rel='stylesheet'>
+	<link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
 </head>
 <body>
 	<nav class='navbar navbar-default navbar-fixed-top'>
@@ -34,9 +35,6 @@
 				<li>
 					<a href='/testStat'>Test Statistic</a>
 				</li>
-				<li>
-					<a href='/addTest'>Add Test Score</a>
-				</li>
 			</ul>
 		</div><!-- /#sidebar-wrapper -->
 		<!-- /#sidebar-wrapper -->
@@ -46,8 +44,6 @@
 				<div class='row'>
 					<div class='col-lg-12'>
             <a class='btn btn-default' href='#menu-toggle' id='menu-toggle'><i class='fa fa-arrows-h'></i></a>
-
-
 						<h1 class='text-center' style='color:grey'>Test Statistics</h1>
 						<table class='testTable table table-striped' id='testDT'>
 							<thead>
@@ -81,7 +77,7 @@
 									<h4 class='modal-title' id='testStatLabel'></h4>
 								</div><!-- Modal Body -->
 								<div class='modal-body'>
-									<div id='curve_chart' style='width: 900px; height: 500px'></div>
+									<div id='curve_chart' class='chart'></div>
 								</div><!-- Modal Footer -->
 								<div class='modal-footer'>
 									<button class='btn btn-default' data-dismiss='modal' type='button'>Close</button>
@@ -95,9 +91,6 @@
 					<div class='modal-dialog'>
 						<div class='modal-content'>
 							<!-- Modal Header -->
-
-
-
 							<form class='form-horizontal' id='progress' name='progress' role='form'>
 								<div class='modal-header'>
 									<button class='close' data-dismiss='modal' type='button'><span aria-hidden='true'>&times;</span> <span class='sr-only'>Close</span></button>
@@ -105,9 +98,6 @@
 								</div><!-- Modal Body -->
 								<div class='modal-body'>
 							  <div class='well'>
-
-
-
 								<table class='editTestTable table table-striped' id='editTestTable'>
 							<thead>
 								<tr>
@@ -119,7 +109,6 @@
 							</thead>
 							<tbody>
 							<div class='testEditWell'>
-
 							</div>
 
 							</tbody>

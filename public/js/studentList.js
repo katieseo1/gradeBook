@@ -124,16 +124,26 @@ function drawGradeChart(studentGrade) {
 			data.setCell(i, 0, 'Test' + Number(studentGrade[i].testNumber));
 			data.setCell(i, 1, Number(studentGrade[i].testScore));
 		}
+
+		var screenSize = $( window ).width();
+		var chartWidth ;
+		if (screenSize >800){
+			chartWidth = 530;
+		}
+		else {
+			chartWidth = 350;
+		}
+
 		var options = {
 			title: 'Test Score',
 			curveType: 'function',
 			legend: {
 				position: 'bottom'
 			},
-			'width': 400,
+			'width': chartWidth,
 			'height': 400
 		};
-		var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+		var chart = new google.visualization.ColumnChart(document.getElementById('curve_chart'));
 		chart.draw(data, options);
 	}
 }
