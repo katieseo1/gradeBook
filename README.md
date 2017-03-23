@@ -1,26 +1,26 @@
 # GradeBook
 An app is to help teachers to manage students'grade.
 
-![Screenshots](https://github.com/katieseo1/gradeBook/blob/master/screenShots/ScreenShot.png)
+![Screenshots](https://github.com/katieseo1/gradeBook/blob/master/screenShots/gradebookDemo.gif)
 
-##Summary
-Gradebook allows teachers to manage students' grade efficently. 
+## Summary
+Gradebook allows teachers to manage students' grade efficiently.
 Teachers are able to add, edit and delete students' information and grades for a test.
 The app also helps teachers to track students' test grade and calculate grade point averages.
 
-##UX
+## UX
 Below is initial wireframes for the app.
 ![Screenshots](https://github.com/katieseo1/gradeBook/blob/master/screenShots/WireFrame.png)
 
-##Live Site
+## Live Site
 You can access Gradebook at https://agile-sierra-40800.herokuapp.com
 
-##Technical
+## Technical
 * The front-end is built using HTML5, CSS3, the back-end using Node with Express as the web server and MongoDB as the database.
 * An extensive REST API has been built to provide database access to the app using ExpressJS.
 * Passport is used for user authentication and access control.
 * The app is fully unit tested on the front and back-end with Mocha.
-* Validating user input is demonstrated throughout the app. 
+* Validating user input is demonstrated throughout the app.
 
 
 ## Setting up a project
@@ -39,5 +39,3 @@ You can access Gradebook at https://agile-sierra-40800.herokuapp.com
 ## Demo Login Information
 * username : demo
 * password : demo1234
-
-    
