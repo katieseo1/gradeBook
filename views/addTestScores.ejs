@@ -1,30 +1,7 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Grade book</title>
-	<link href='//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css' rel='stylesheet'>
-	<link href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css' rel='stylesheet'>
-	<link href='//cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css' rel='stylesheet'>
-	<link href='//cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css' rel='stylesheet'>
-	<link href='/custom/simple-sidebar.css' rel='stylesheet'>
-	<link href='/custom/custom-nav.css' rel='stylesheet'>
-	<link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
-</head>
-<body>
-	<nav class='navbar navbar-default navbar-fixed-top'>
-		<div class='container'>
-			<div class='navbar-header'>
-				<button class='navbar-toggle collapsed' data-target='#navbar8' data-toggle='collapse' type='button'><span class='sr-only'>Toggle navigation</span> <span class='icon-bar'></span> <span class='icon-bar'></span> <span class='icon-bar'></span></button> <a class='navbar-brand' href='/' rel='home'><img src='/img/gradeBookBlack.png' style='max-height:50px; margin-right: 2px;'> GradeBook</a>
-			</div>
-			<div class='navbar-collapse collapse' >
-				<ul class='nav navbar-nav navbar-right'>
-					<li class='active'>
-						<a class='signup' href='/Logout'>Logout</a>
-					</li>
-				</ul>
-			</div><!--/.nav-collapse -->
-		</div><!--/.container-fluid -->
-	</nav>
+<%include header.ejs %>
+
 	<div id='wrapper'>
 		<!-- Sidebar -->
 		<div id='sidebar-wrapper'>
@@ -33,7 +10,7 @@
 					<a href='/studentList'>Student List</a>
 				</li>
 				<li>
-					<a href='/testStat'>Test Statistic</a>
+					<a href='/testStat' style='color:#6cbf6c'>Test Statistic</a>
 				</li>
 			</ul>
 		</div><!-- /#sidebar-wrapper -->

@@ -1,11 +1,11 @@
 html, body {
 	height: 100%;
 	width: 100%;
-	font-family: 'Merriweather', 'Helvetica Neue', Arial, sans-serif;
+	font-family:  Arial
 }
 .navbar-default .navbar-header .navbar-brand {
 	color: #6cbf6c;
-	font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+	font-family:  Arial;
 	font-weight: 700;
 	text-transform: uppercase;
 }
@@ -28,13 +28,16 @@ html, body {
 .service-box p {
 	margin-bottom: 0;
 }
+.service-box h4{
+	line-height:150%;
+	font-weight:300;
+}
 .text-primary {
 	color: #6cbf6c;
 }
-.btn-primary {
-	color: white;
-	background-color: #6cbf6c;
-	border-color: #6cbf6c;
+.btn-default {
+	color: #6cbf6c;
+	border-color: white;
 	-webkit-transition: all 0.35s;
 	-moz-transition: all 0.35s;
 	transition: all 0.35s;
@@ -46,17 +49,21 @@ html, body {
 	font-weight: 700;
 	text-transform: uppercase;
 }
-.breadcrumb {
-	height: auto;
-	overflow: hidden;
-	position: relative;
-	background-image: url('../img/bg.png');
-	opacity: 1;
-	background-size: cover;
-	color: white;
-	filter: alpha(opacity=100);
-	/* For IE8 and earlier */
+label{
+	font-family: Arial;
+	color : #6cbf6c;
 }
+.breadcrumb {
+
+color:white;
+background: #6cbf6c;
+}
+
+.form-group label{
+	font-family: Arial;
+	color :white;
+}
+
 a {
 	margin-top:
 }
@@ -65,12 +72,11 @@ input, .input-group {
 }
 .btn-top {
 	margin-top: 230px;
+	color:#6cbf6c;
 }
-.col-sm-6 {
-	margin-top: 50px;
-}
+
 .introHeader {
-	margin-top: 50px;
+	margin-top: 5px;
 }
 .transparent {
 	background-color: transparent;
@@ -84,16 +90,35 @@ input, .input-group {
 	border-width: 0px
 }
 .panel {
-	padding: 50px;
-}
-.panel-body {
-	margin-left: 50px;
-	margin-right: 50px;
-}
-h1 {
-	margin-top: 150px;
+	padding: 5px;
 }
 
+h1 {
+	margin-top: 50px;
+}
+.service-box h3{
+	color :#696969;
+}
+.feature-container{
+	color :#696969;
+	line-height :120%;
+}
+.feature-container h1{
+	color:#6cbf6c;
+}
+.feature-container hr{
+	color:#6cbf6c;
+  border-top: 4px solid #6cbf6c;
+	width:200px;
+}
+
+.feature-container h3{
+	line-height:150%;
+}
+.feature-container h4{
+	line-height:150%;
+	font-weight:300;
+}
 .signup {
 	color: #fff;
 	background-color: #5cb85c;
@@ -123,12 +148,62 @@ h1 {
 	.service-box {
 		margin: 20px auto 0;
 	}
-}
-@media only screen and (max-width: 700px) {
-	.introHeader, .col-sm-6 {
-		margin-top: 20px;
+	h1 {
+		margin-top: 100px;
 	}
-	.intro {
-		display: none;
+	.panel-body {
+		margin-left: 50px;
+		margin-right: 50px;
+	}
+}
+
+
+footer{
+	margin-top:50px;
+}
+/* login btn loading effect */
+.login-btn:focus, .login-btn:active {
+	color: #4B79A1;
+	text-shadow: 1px 1px 1px #000;
+	background: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, 0.6) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0.6) 75%, transparent 75%, transparent), -webkit-linear-gradient(top, #f6f5f0, #e1e0dc);
+	background: -moz-linear-gradient(-45deg, rgba(255, 255, 255, 0.6) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0.6) 75%, transparent 75%, transparent), -moz-linear-gradient(top, #f6f5f0, #e1e0dc);
+	background: -ms-linear-gradient(-45deg, rgba(255, 255, 255, 0.6) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0.6) 75%, transparent 75%, transparent), -ms-linear-gradient(top, #f6f5f0, #e1e0dc);
+	background: -o-linear-gradient(-45deg, rgba(255, 255, 255, 0.6) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0.6) 75%, transparent 75%, transparent), -o-linear-gradient(top, #f6f5f0, #e1e0dc);
+	background: linear-gradient(-45deg, rgba(255, 255, 255, 0.6) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0.6) 75%, transparent 75%, transparent), linear-gradient(top, #f6f5f0, #e1e0dc);
+	-pie-background: linear-gradient(-45deg, rgba(255, 255, 255, 0.6) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0.6) 75%, transparent 75%, transparent), linear-gradient(top, #f6f5f0, #e1e0dc);
+	background-repeat: repeat;
+	-webkit-background-size: 40px 40px, 100% 100%;
+	-moz-background-size: 40px 40px, 100% 100%;
+	-ms-background-size: 40px 40px, 100% 100%;
+	-o-background-size: 40px 40px, 100% 100%;
+	background-size: 40px 40px, 100% 100%;
+	-webkit-animation: progress-bar-stripes 2s linear infinite;
+	-moz-animation: progress-bar-stripes 2s linear infinite;
+	-ms-animation: progress-bar-stripes 2s linear infinite;
+	-o-animation: progress-bar-stripes 2s linear infinite;
+	animation: progress-bar-stripes 2s linear infinite;
+}
+@-webkit-keyframes progress-bar-stripes {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: 40px 0;
+	}
+}
+@-moz-keyframes progress-bar-stripes {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: 40px 0;
+	}
+}
+@keyframes progress-bar-stripes {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: 40px 0;
 	}
 }
