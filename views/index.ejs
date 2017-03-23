@@ -1,123 +1,108 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>GradeBook</title>
-	<link href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css' rel='stylesheet'>
-	<link href='//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css' rel='stylesheet'>
-	<link href='/custom/home.css' rel='stylesheet'>
-	<link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-	<link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <title>GradeBook</title>
+  <link href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css' rel='stylesheet'>
+  <link href='//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css' rel='stylesheet'>
+  <link href='/custom/home.css' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
-	<nav class='navbar navbar-default navbar-static-top'>
-		<div class='container'>
-			<div class='navbar-header'>
-				<button class='navbar-toggle collapsed' data-toggle='collapse' type='button'>
-					<a class='signup' href='/signup'>Signup</a>
-				</button>
-					<span>
-						<a class='navbar-brand' href='/' rel='home'>
-							<img src='/img/gradeBookBlack.png' style='max-height:50px; margin-right: 2px;'>
-							GradeBook
-						</a>
-					</span>
-			</div>
-			<div class='navbar-collapse collapse'>
-				<ul class='nav navbar-nav navbar-right'>
-					<li class='active signup-btn'>
-						<a class='signup' href='/signup'>Signup</a>
-					</li>
-				</ul>
-			</div><!--/.nav-collapse -->
-		</div><!--/.container-fluid -->
-	</nav>
-	<div class='container-fluid breadcrumb'>
-		<div class='row'>
-			<div class='col-lg-7 text-center'>
-				<h1 class='intro'>GradeBook</h1>
-				<h3 class='intro'> Cloud-based student grade management system</h3>
-			</div>
-			<div class='col-lg-4'>
-				<!-- LOGIN FORM -->
-				<div class='panel panel-default transparent '>
-					<div class='panel-body transparent'>
-						<h2>Login</h2><%if (message.length > 0) { %>
-						<div class='alert alert-danger'>
-							<%= message %>
-						</div><%} %>
-						<form action='/login' method='post'>
-							<div class='form-group'>
-								<label style = 'color:white;'>Email/username</label> <input class='form-control' name='email' type='text' value='demo'>
-							</div>
-							<div class='form-group'>
-								<label>Password</label> <input class='form-control' name='password' type='password' value='demo1234'>
-							</div><button class='btn btn-default btn pull-right login-btn' type='submit'>Login</button>
-							<p>Need an account? <a href='/signup' style='color:white'>Signup</a></p>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-4 col-md-6 text-center">
-				<div class="service-box">
-					<i class="fa fa-4x fa-pencil-square-o text-primary sr-icons"></i>
-					<h3>Easy to Use</h3>
-					<h4>Clean and simple interface</h4>
-				</div>
-			</div>
-			<div class="col-lg-4 col-md-6 text-center">
-				<div class="service-box">
-					<i class="fa fa-4x fa-bar-chart text-primary sr-icons"></i>
-					<h3>Student Progress</h3>
-					<h4>Track student test performance</h4>
-				</div>
-			</div>
-			<div class="col-lg-4 col-md-6 text-center">
-				<div class="service-box">
-					<i class="fa fa-4x fa-plane text-primary sr-icons"></i>
-					<h3>Online Access</h3>
-					<h4>Use your gradebook from anywhere!</h4>
-				</div>
-			</div>
-		</div>
-
-		<div class='container feature-container'>
-		    <div class='landing text-center'>
-		      <h1>Features</h1>
-		    </div>
-		    <hr>
-		    <div class='row'>
-		      <div class='col-md-5'>
-		        <video class='text-center' controls='' height='240' width='320'>
-							<source src='img/gradebookDemo.mp4' type='video/mp4'>
-		          <source src='img/gradebookDemo.ogg' type='video/ogg'> Your browser does not support the video tag.
-		          </video>
-		          <br>
-		      </div>
-		      <div class='col-md-7'>
-		        <div class='instruction'>
-		          <h3>Help teachers to manage students' grade</h3>
-		        </div>
-		        <div class='instruction'>
-		          <h4 class='instruction-message' for='how to use app'>
-								Teachers are able to add, edit and delete students' information and grades.<br>
-		          	The app also helps teachers to track students' test grade and calculate grade point averages.<br>
-		        	</h4>
-		        </div>
-		      </div>
-		    </div>
-		  </div>
-		  <footer class='text-center'>
-		    <label for='Author'><a style='color:#6cbf6c' href='http://www.katieseo.com'>Personal Project Developed by Katie Seo</a></label>
-		  </footer>
-	<script src='/js/jquery.min.js'>
-	</script>
-	<script src='/js/bootstrap.min.js'>
-	</script>
+  <nav class='navbar navbar-default navbar-static-top'>
+    <div class='container'>
+      <div class='navbar-header'>
+        <button class='navbar-toggle collapsed' data-toggle='collapse' type='button'><a class='signup' href='/signup'>Signup</a></button> <span><a class='navbar-brand' href='/' rel='home'><img src='/img/gradeBookBlack.png' style='max-height:50px; margin-right: 2px;'> GradeBook</a></span>
+      </div>
+      <div class='navbar-collapse collapse'>
+        <ul class='nav navbar-nav navbar-right'>
+          <li class='active signup-btn'>
+            <a class='signup' href='/signup'>Signup</a>
+          </li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
+  </nav>
+  <div class='container-fluid breadcrumb'>
+    <div class='row'>
+      <div class='col-lg-7 text-center'>
+        <h1 class='intro'>GradeBook</h1>
+        <h3 class='intro'>Cloud-based student grade management system</h3>
+      </div>
+      <div class='col-lg-4'>
+        <!-- LOGIN FORM -->
+        <div class='panel panel-default transparent'>
+          <div class='panel-body transparent'>
+            <h2>Login</h2><%if (message.length > 0) { %>
+            <div class='alert alert-danger'>
+              <%= message %>
+            </div><%} %>
+            <form action='/login' method='post'>
+              <div class='form-group'>
+                <label style='color:white;'>Email/username</label> <input class='form-control' name='email' type='text' value='demo'>
+              </div>
+              <div class='form-group'>
+                <label>Password</label> <input class='form-control' name='password' type='password' value='demo1234'>
+              </div><button class='btn btn-default btn pull-right login-btn' type='submit'>Login</button>
+              <p>Need an account? <a href='/signup' style='color:white'>Signup</a></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4 col-md-6 text-center">
+        <div class="service-box">
+          <i class="fa fa-4x fa-pencil-square-o text-primary sr-icons"></i>
+          <h3>Easy to Use</h3>
+          <h4>Clean and simple interface</h4>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6 text-center">
+        <div class="service-box">
+          <i class="fa fa-4x fa-bar-chart text-primary sr-icons"></i>
+          <h3>Student Progress</h3>
+          <h4>Track student test performance</h4>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6 text-center">
+        <div class="service-box">
+          <i class="fa fa-4x fa-plane text-primary sr-icons"></i>
+          <h3>Online Access</h3>
+          <h4>Use your gradebook from anywhere!</h4>
+        </div>
+      </div>
+    </div>
+    <div class='container feature-container'>
+      <div class='landing text-center'>
+        <h1>Features</h1>
+      </div>
+      <hr>
+      <div class='row'>
+        <div class='col-md-5'>
+          <video class='text-center' controls='' height='240' width='320'><source src='img/gradebookDemo.mp4' type='video/mp4'> <source src='img/gradebookDemo.ogg' type='video/ogg'> Your browser does not support the video tag.</video><br>
+        </div>
+        <div class='col-md-7'>
+          <div class='instruction'>
+            <h3>Help teachers to manage students' grade</h3>
+          </div>
+          <div class='instruction'>
+            <h4 class='instruction-message'>Teachers are able to add, edit and delete students' information and grades.<br>
+            The app also helps teachers to track students' test grade and calculate grade point averages.<br></h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class='text-center'>
+      <label for='Author'><a href='http://www.katieseo.com' style='color:#6cbf6c'>Personal Project Developed by Katie Seo</a></label>
+    </footer>
+    <script src='/js/jquery.min.js'>
+    </script>
+    <script src='/js/bootstrap.min.js'>
+    </script>
+  </div>
 </body>
 </html>

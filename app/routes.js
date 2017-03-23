@@ -82,7 +82,7 @@ module.exports = function (app, passport) {
     }).then(function (res) {
       errMsg(res)
       return res.json()
-    }).then(res.json(1))
+    }).then(res.json({msg: 'success'}))
   })
 
 	// Delete a student
@@ -92,7 +92,7 @@ module.exports = function (app, passport) {
     }).then(function (res) {
       errMsg(res)
       return res.json()
-    }).then(res.json(1))
+    }).then(res.json({msg: 'success'}))
   })
 
 	// Get test distribution for a test
@@ -120,7 +120,7 @@ module.exports = function (app, passport) {
     }).then(function (res) {
       errMsg(res)
       return res.json()
-    }).then(res.json(1))
+    }).then(res.json({msg: 'success'}))
   })
 
 	// Delete a score of the teset

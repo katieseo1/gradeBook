@@ -8,21 +8,18 @@
   <link href='/custom/simple-sidebar.css' rel='stylesheet'>
   <link href='/custom/custom-nav.css' rel='stylesheet'>
   <style>
-
   .panel-default>.panel-heading {
     color: white;
     background-color: #5cb85c;
     border-color:  #5cb85c;
-}
+  }
   </style>
 </head>
 <body>
   <div class='container'>
     <div class='col-sm-6 col-sm-offset-3'>
       <center>
-        <a href="/">
-          <img src='/img/gradeBookBlackLogo.png'>
-        </a>
+        <a href="/"><img src='/img/gradeBookBlackLogo.png'></a>
       </center>
       <div class='panel panel-default'>
         <div class='panel-heading'>
@@ -35,7 +32,7 @@
           <div class='alert alert-danger'>
             <%= message %>
           </div><%} %><!-- LOGIN FORM -->
-          <form id='signup-form' action ='/signup' method='post' name='signup-form'>
+          <form action='/signup' id='signup-form' method='post' name='signup-form'>
             <div class='form-group'>
               <label>Email/Username</label> <input class='form-control' name='email' required='' type='text'>
             </div>
