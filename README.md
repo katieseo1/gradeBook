@@ -24,7 +24,7 @@ You can access Gradebook at https://agile-sierra-40800.herokuapp.com
 
 
 ## Setting up a project
-* Move into your projects directory: `cd ~/YOUR_PROJECTS_DIRECTORY`
+* Move into your projects  directory: `cd ~/YOUR_PROJECTS_DIRECTORY`
 * Clone this repository: `git clone https://github.com/katieseo1/gradeBook`
 * Move into the project directory: `cd YOUR_PROJECT_NAME`
 * Install the dependencies: `npm install`
