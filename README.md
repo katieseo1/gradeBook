@@ -1,7 +1,7 @@
 # GradeBook
 An app is to help teachers to manage students'grade.
 
-![Screenshots](https://github.com/katieseo1/gradeBook/blob/master/screenShots/gradebookDemo.gif)
+![Screenshots](https://github.com/katieseo1/gradeBook/blob/master/gradebookDemo.gif)
 
 ## Summary
 Gradebook allows teachers to manage students' grade efficiently.
@@ -10,7 +10,7 @@ The app also helps teachers to track students' test grade and calculate grade po
 
 ## UX
 Below is initial wireframes for the app.
-![Screenshots](https://github.com/katieseo1/gradeBook/blob/master/screenShots/WireFrame.png)
+![Screenshots](https://github.com/katieseo1/gradeBook/blob/master/WireFrame.png)
 
 ## Live Site
 You can access Gradebook at https://agile-sierra-40800.herokuapp.com
