@@ -5,24 +5,38 @@ function addTestScore (score) {
     data: JSON.stringify(score),
     async: true,
     success: function (data) {
-      bootbox.alert({
-	 		size: 'small',
-	 		message: 'Added test scores',
-	 		callback: function () {
-   window.location.reload(true)
-
-   $('#addScores').bootstrapValidator('resetForm', true)
-   $('#addScores').find('.has-error').removeClass('has-error')
-   $('#addScores').find('.has-success').removeClass('has-success')
-   $('#addScores').find('.form-control-feedback').remove()
- }
-      })
+      displayMessage('Added test scored ')
     },
     dataType: 'json',
     contentType: 'application/json'
   })
   return false
 }
+
+function displayMessage (msg) {
+  bootbox.confirm({
+    message: msg,
+    buttons: {
+      confirm: {
+        label: 'Add Next Test Scores',
+        className: 'btn-success'
+      },
+      cancel: {
+        label: 'Back to Test Stat',
+        className: 'btn-primary'
+      }
+    },
+    callback: function (result) {
+      if (result === false) {
+        window.location.href = '/testStat'
+      } else {
+        window.location.reload(true)
+      }
+    }
+  })
+}
+
+
 
 function addTestScoreDB () {
   var testScores = []

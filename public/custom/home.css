@@ -45,7 +45,7 @@ html, body {
 .btn {
   font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
   border: none;
-  border-radius: 300px;
+  border-radius: 5px;
   font-weight: 700;
   text-transform: uppercase;
 }

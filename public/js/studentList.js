@@ -8,7 +8,12 @@ function deleteStudent (id) {
     url: 'student/' + id,
     method: 'DELETE',
     success: function (data) {
-      location.reload()
+      bootbox.alert({
+    message: "Deleted Student",
+    callback: function () {
+        window.location.reload(true)
+        }
+      })
     }
   })
 }
@@ -43,11 +48,12 @@ function updateStudent (student) {
     contentType: 'application/json',
     data: JSON.stringify(student),
     success: function (data) {
-      $('#editPost').bootstrapValidator('resetForm', true)
-      $('#editPost').find('.has-error').removeClass('has-error')
-      $('#editPost').find('.has-success').removeClass('has-success')
-      $('#editPost').find('.form-control-feedback').remove()
-      window.location.reload(true)
+      bootbox.alert({
+    message: "Updated student information!",
+    callback: function () {
+        window.location.reload(true)
+        }
+      })
     }
   })
 }
@@ -64,24 +70,24 @@ function addStudent (student) {
     method: 'POST',
     url: '/addStudent',
     data: JSON.stringify(student),
-    success: function (data) {
-      $('#editPost').bootstrapValidator('resetForm', true)
-      $('#editPost').find('.has-error').removeClass('has-error')
-      $('#editPost').find('.has-success').removeClass('has-success')
-      $('#editPost').find('.form-control-feedback').remove()
-      window.location.reload(true)
+      success: function (data) {
+        bootbox.alert({
+      message: "Added New Student",
+      callback: function () {
+          window.location.reload(true)
+          }
+        })
     },
     dataType: 'json',
     contentType: 'application/json'
   })
-  window.location.reload(true)
-  return false
 }
 
 function handleAddStudent () {
   $('#addStudentForm').submit(function (e) {
     e.preventDefault()
     e.stopImmediatePropagation()
+    $('#addStudent').modal('hide')
     addStudent({
       firstname: $(e.currentTarget).find('#firstname').val().trim(),
       lastname: $(e.currentTarget).find('#lastname').val().trim()

@@ -16,39 +16,15 @@ function handleTestEdit (dataTable) {
     testEdit($(e.currentTarget).closest('.js-test-edit').attr('data-id'),dataTable)
   })
 }
-var testTemplate = ('<div class=\'well\'>' +
-'<span><p class=\'studentName floating-box\'></p>' +
- '<input class=\'testScore formfloating-box\' type=\'number\'></input></span>' +
- '<button class=\'btn floating-box btn-default  js-score-edit\'><span><i class=\'glyphicon glyphicon-save\'></i> Save</span></button>' +
- '<button class=\'btn btn-default floating-box js-score-delete\'><span><i class=\'glyphicon glyphicon-trash \'></i> Delete</span></button>' +
- '</div>' + '</div>')
-
-function displayTestTable (data, testId) {
-  var testTableElement = data.map(function (data) {
-    var element = $(testTemplate)
-    element.attr('id', data.studentId)
-    element.attr('scoreInfo', data.score)
-    element.attr('testId', testId)
-    element.find('.studentName').text(data.name)
-    element.find('.testScore').val(data.score)
-    return element
-  })
-  $('.well').html(testTableElement)
-}
-
 function handleScoreEdit () {
   $('.testEdit-table').on('click', '.js-score-edit', function (e) {
     e.preventDefault()
-     var studentId = $(e.currentTarget).data('id')
-    var testId = $(e.currentTarget).data('testid')
+    var studentId = $(e.currentTarget).data('id')
     var inputId= `#input${studentId}`
     var scoreInfo = $(inputId).val().trim()
-
-
-
     updateScore({
       id: studentId,
-      testNumber: testId,
+      testNumber: $(e.currentTarget).data('testid'),
       testScore: Number(scoreInfo)
     })
   })
@@ -56,23 +32,18 @@ function handleScoreEdit () {
 
 function handleScoreDelete () {
   $('.testEdit-table').on('click', '.js-score-delete', function (e) {
-    e.preventDefault()
-
-
     var studentId = $(e.currentTarget).data('id')
-   var testId = $(e.currentTarget).data('testid')
    var inputId= `#input${studentId}`
    var scoreInfo = $(inputId).val().trim()
     deleteScore({
-      id: studentId,
-      testNumber: testId,
+      id:$(e.currentTarget).data('id'),
+      testNumber: $(e.currentTarget).data('testid'),
       testScore: scoreInfo
     })
   })
 }
 
 function updateScore (test) {
-  console.log(test)
   $.ajax({
     url: 'testList/' + test.id,
     method: 'PUT',
@@ -80,8 +51,7 @@ function updateScore (test) {
     contentType: 'application/json',
     data: JSON.stringify(test),
     success: function () {
-      window.location.reload(true)
-      $('#editTest').modal('hide')
+      displayMessage('Updated/Added test scores')
     }
   })
 }
@@ -94,8 +64,7 @@ function deleteScore (test) {
     contentType: 'application/json',
     data: JSON.stringify(test),
     success: function () {
-      window.location.reload(true)
-      $('#editTest').modal('hide')
+    displayMessage('Deleted test scores')
     }
   })
 }
@@ -105,17 +74,9 @@ function testEdit (id,dataTable) {
     url: 'testList/' + id,
     method: 'GET',
     success: function (data) {
-      console.log("===============")
-      console.log(data)
-      document.getElementById('testLabel').innerHTML = ' Edit scores for Test # ' + id
-
-      $('#testEditModal').modal('show')
-
+    document.getElementById('testLabel').innerHTML = ' Edit scores for Test # ' + id
      var  editTestTable=dataTable
-     console.log(editTestTable)
      editTestTable.clear().draw()
-
-
       for (var i = 0; i < data.studentScores.length; i++) {
         editTestTable.row.add([data.studentScores[i].name, `<input type ="number"
         class="testScore" id="input${data.studentScores[i].studentId}" placeholder="${data.studentScores[i].score}">`,
@@ -125,8 +86,7 @@ function testEdit (id,dataTable) {
             data-id="${data.studentScores[i].studentId}" > Delete </a>`]
         ).draw()
       }
-      //displayTestTable(data.studentScores, id)
-      //$('#testEditModal').modal('show')
+      $('#testEditModal').modal('show')
     },
     error: function (XMLHttpRequest, textStatus, errorThrown) {
       console.log('Status: ' + textStatus)
@@ -200,6 +160,30 @@ function drawTestChart (exam) {
   }
 }
 
+function displayMessage (msg) {
+  bootbox.confirm({
+    message: msg,
+    buttons: {
+      confirm: {
+        label: 'Back to test stat',
+        className: 'btn-success'
+      },
+      cancel: {
+        label: 'Continue to edit test scores',
+        className: 'btn-primary'
+      }
+    },
+    callback: function (result) {
+      if (result === true) {
+        window.location.href = '/testStat'
+      } else {
+        //window.location.reload(true)
+        $('#editTest').modal('hide')
+      }
+    }
+  })
+}
+
 $(function () {
   $('#testDT').dataTable({
     'columnDefs': [{
@@ -211,13 +195,10 @@ $(function () {
       'targets': 2
     }]
   })
-
   var editTestTable = $('#testEditTable').DataTable({
     'paging': false,
     'class': 'display'
   })
-
-
   handleScoreDelete()
   handleScoreEdit()
   handleTestChart()

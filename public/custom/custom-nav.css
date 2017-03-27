@@ -31,6 +31,10 @@ nav.navbar {
 .navbar-default {
   background-color: #6cbf6c;
 }
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+    color: #cecece;
+    background-color: transparent;
+}
 .navbar-nav>li>a, .navbar-brand {
   padding-top: 0px !important;
   padding-bottom: 0px !important;
@@ -44,17 +48,6 @@ nav.navbar {
   line-height: 50px;
   font-size: medium;
 }
-.floating-box {
-  box-sizing: border-box;
-  display: inline-block;
-  width: 20%;
-  height: 30px;
-  margin: 5px;
-}
-.well {
-  background-color: white;
-  border: 0px;
-}
 .navbar-default .navbar-header .navbar-brand {
   font-family: Arial;
   font-weight: 700;
@@ -63,6 +56,9 @@ nav.navbar {
 .navbar-default .nav>li>a, .navbar-default .nav>li>a:focus {
   text-transform: uppercase;
   font-weight: 800;
-  font-size: 13px;
+  font-size: 15px;
   color: white;
+}
+.btn-top{
+  margin-top:80px;
 }

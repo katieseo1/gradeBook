@@ -1,7 +1,7 @@
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
 const User = require('../app/models/user')
-const apiURL = 'http://localhost:8080/api/'
+const apiURL = 'https://agile-sierra-40800.herokuapp.com/api/'
 
 module.exports = function (app, passport) {
 	// Display error message
@@ -52,7 +52,7 @@ module.exports = function (app, passport) {
     }).then(function (res) {
       errMsg(res)
       return res.json()
-    })
+    }).then(res.json({message: 'success'}))
   })
 
 	// Add new scores for a test
@@ -67,7 +67,7 @@ module.exports = function (app, passport) {
     }).then(function (res) {
       errMsg(res)
       return res.json()
-    }).then(res.json(1))
+    }).then(res.json({message: 'success'}))
   })
 
 	// Update a student info

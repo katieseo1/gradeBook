@@ -210,7 +210,6 @@ module.exports = function (app) {
     }
   }
   //no test number
-  console.log(origScore)
   toUpdate['local.grades'] = origScore
   User.findByIdAndUpdate(mongoose.Types.ObjectId(req.params.id), {
     $set: toUpdate
@@ -218,8 +217,6 @@ module.exports = function (app) {
     new: true,
     upsert: true
   }).exec().then(user => {
-    console.log('after========')
-    console.log(user)
     res.json({
       user: user
     })
