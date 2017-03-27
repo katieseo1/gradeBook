@@ -33,8 +33,15 @@
 						 <tbody>
 							 <%for(var i=0; i < user.length; i++) { %>
 							 <tr>
-								 <td class='name'><%= user[i].firstname +' ' +user[i].lastname  %></td><%var total=0; for (var j=0; j < user[i].grades.length;j++) {%><%total+=user[i].grades[j].testScore;%><%}  score= (total/user[i].grades.length).toFixed(2)%>
-								 <td><%= score || 'NA' %></td>
+								 <td class='name'><%= user[i].firstname +' ' +user[i].lastname  %>
+								 </td><%var total=0; for (var j=0; j < user[i].grades.length;j++)
+								 {%><%total+=user[i].grades[j].testScore;%><%}
+								 score= (total/user[i].grades.length).toFixed(2)%>
+								 <td><% if(isNaN(score)){%>
+										 0
+										 <%} else {%>
+										  <%=score%>
+										 <%}%></td>
 								 <td><button class='btn btn-default js-student-progress' data-id='<%=user[i].id %>'><span class='fa fa-bar-chart-o'></span> Progress</button></td>
 								 <td><button class='btn btn-default js-student-edit' data-firstname='<%=user[i].firstname %>' data-id='<%=user[i].id %>' data-lastname='<%=user[i].lastname %>'><span class='fa fa-edit'></span> Edit</button></td>
 								 <td><button class='btn btn-default js-student-delete' data-id='<%=user[i].id %>'><span class='fa fa-trash-o'></span> Delete</button></td>

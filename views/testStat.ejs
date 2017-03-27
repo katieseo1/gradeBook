@@ -20,7 +20,10 @@
 			 <div class='row'>
 				 <div class='col-lg-12'>
 					 <a class='btn btn-default' href='#menu-toggle' id='menu-toggle'>
-						 <i class='fa fa-arrows-h'></i></a> <a class='pull-right btn btn-default btn-top' href='/addTest'>Add Test Score</a>
+						 <i class='fa fa-arrows-h'></i></a>
+							<div class='container'>
+								<a class='pull-right btn btn-default' href='/addTest'>Add New Test Scores for students</a><br><br>
+					 		</div>
 					 <h1 class='text-center' style='color:grey'>Test Statistics</h1>
 					 <table class='testTable table table-striped' id='testDT'>
 						 <thead>
@@ -37,12 +40,14 @@
 								 <td class='name'><%= stat[i].testId %></td>
 								 <td><%= stat[i].avg.toFixed(2) %></td>
 								 <td><button class='btn btn-default js-test-stat' data-id='<%=stat[i].testId%>'><span class='fa fa-bar-chart-o'></span> Chart</button></td>
-								 <td><button class='btn btn-default js-test-edit' data-id='<%=stat[i].testId%>'><span class='fa fa-pencil-square-o'></span> Edit</button></td>
+								 <td><button class='btn btn-default js-test-edit' data-id='<%=stat[i].testId%>'><span class='fa fa-pencil-square-o'></span> Edit/Add</button></td>
 							 </tr><%} %>
 						 </tbody>
 					 </table>
 				 </div>
 			 </div><!-- Modal -->
+
+
 			 <div aria-hidden='true' aria-labelledby='myModalLabel' class='modal fade' id='statChart' role='dialog' tabindex='-1'>
 				 <div class='modal-dialog'>
 					 <div class='modal-content'>
@@ -62,38 +67,42 @@
 					 </div>
 				 </div>
 			 </div>
-			 <div aria-hidden='true' class='modal fade' id='editTest' role='dialog' tabindex='-1'>
-				 <div class='modal-dialog'>
-					 <div class='modal-content'>
-						 <!-- Modal Header -->
-						 <form class='form-horizontal' id='progress' name='progress' role='form'>
-							 <div class='modal-header'>
-								 <button class='close' data-dismiss='modal' type='button'><span aria-hidden='true'>&times;</span> <span class='sr-only'>Close</span></button>
-								 <h4 class='modal-title' id='testEditLabel'></h4>
-							 </div><!-- Modal Body -->
-							 <div class='modal-body'>
-								 <div class='well'>
-									 <div class='testEditWell'></div>
-									 <table class='editTestTable table table-striped' id='editTestTable'>
+
+
+					 <div class='modal fade' id='testEditModal' role='dialog'>
+						 <div class='modal-dialog'>
+							 <div class='modal-content'>
+								 <div class='modal-header'>
+									 <button type='button' class='close' data-dismiss='modal'>&times;</button>
+									 <lable for 'test Detail' id='testLabel' class='modal-title'>Spending</label>
+								 </div>
+								 <div class='modal-body '>
+									 <table cellspacing='0' class='table table-striped testEdit-table' id='testEditTable' width='100%'>
 										 <thead>
 											 <tr>
-												 <th>Name</th>
-												 <th>Score</th>
-												 <th></th>
-												 <th></th>
+												 <th scope='col'>Student Name</th>
+												 <th scope='col'>Score</th>
+												 <th scope='col'>Edit/Add</th>
+												 <th scope='col'>Edit/Add</th>
+
 											 </tr>
 										 </thead>
-										 <tbody></tbody>
 									 </table>
-								 </div><!-- Modal Footer -->
+								 </div>
 								 <div class='modal-footer'>
-									 <button class='btn btn-default' data-dismiss='modal' type='button'>Close</button>
+									 <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
 								 </div>
 							 </div>
-						 </form>
+						 </div>
 					 </div>
 				 </div>
 			 </div>
+		 </div>
+
+
+
+
+
 			 <script src='/js/jquery.min.js'>
 			 </script>
 			 <script src='/js/bootstrap.min.js'>

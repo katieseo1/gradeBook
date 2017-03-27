@@ -1,7 +1,7 @@
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
 const User = require('../app/models/user')
-const apiURL = 'https://agile-sierra-40800.herokuapp.com/api/'
+const apiURL = 'http://localhost:8080/api/'
 
 module.exports = function (app, passport) {
 	// Display error message

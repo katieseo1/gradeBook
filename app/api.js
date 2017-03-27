@@ -7,6 +7,7 @@ const mongoose = require('mongoose')
 module.exports = function (app) {
 	// Display errors
   function errMsg (err, res) {
+    console.log(err)
     res.status(500).json({
       message: 'Internal server error'
     })
@@ -47,21 +48,33 @@ module.exports = function (app) {
     let testId = req.params.id
     let testScores = []
     let studentScores = []
+    let testExist = false
     User.find().where('local.usergroup').equals('student').exec().then(user => {
       for (i = 0; i < user.length; i++) {
         obj = {}
+        testExist = false
+        obj['name'] = user[i].local.firstname + ' ' + user[i].local.lastname
+        obj['studentId'] = mongoose.Types.ObjectId(user[i].id)
+
         if (user[i].local.grades.length != 0) {
           cnt += 1
           for (k = 0; k < user[i].local.grades.length; k++) {
             if (user[i].local.grades[k].testNumber == testId) {
+              testExist=true
               testScores.push(user[i].local.grades[k].testScore)
               obj['score'] = user[i].local.grades[k].testScore
-              obj['name'] = user[i].local.firstname + ' ' + user[i].local.lastname
-              obj['studentId'] = mongoose.Types.ObjectId(user[i].id)
-              studentScores.push(obj)
             }
           }
+          if(testExist===false){
+            obj['score'] = 'No Test Score'
+          }
         }
+        // A student with no test score
+        else{
+          obj['score'] = 'No Test Score'
+        }
+        studentScores.push(obj)
+
       }
       res.json({
         studentScores: studentScores,
@@ -166,6 +179,7 @@ module.exports = function (app) {
   })
 	// Update test score
   app.put('/api/testList/:id', (req, res) => {
+    console.log(req.body)
     const toUpdate = {}
     let origScore = []
     let index = null
@@ -175,19 +189,37 @@ module.exports = function (app) {
 		.findById(req.params.id)
 		.exec()
 		.then(user => {
+      console.log(req.body)
   origScore = user.local.grades
-  for (i = 0; i < origScore.length; i++) {
-    if (origScore[i].testNumber == testNum) {
-      index = i
-      origScore[i].testScore = testScore
+  //new student
+  if(origScore.length===0){
+    console.log("new User")
+    origScore=[{'testNumber':testNum,'testScore':testScore}]
+  }
+  //updating an existing student score
+  else{
+    for (i = 0; i < origScore.length; i++) {
+      if (origScore[i].testNumber == testNum) {
+        index = i
+        origScore[i].testScore = testScore
+      }
+    }
+    //exisitng student with no test score
+    if(index===null){
+      origScore=[{'testNumber':testNum,'testScore':testScore}]
     }
   }
+  //no test number
+  console.log(origScore)
   toUpdate['local.grades'] = origScore
   User.findByIdAndUpdate(mongoose.Types.ObjectId(req.params.id), {
     $set: toUpdate
   }, {
-    new: true
+    new: true,
+    upsert: true
   }).exec().then(user => {
+    console.log('after========')
+    console.log(user)
     res.json({
       user: user
     })
