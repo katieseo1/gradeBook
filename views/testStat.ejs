@@ -13,8 +13,6 @@
 			 </li>
 		 </ul>
 	 </div><!-- /#sidebar-wrapper -->
-	 <!-- /#sidebar-wrapper -->
-	 <!-- Page Content -->
 	 <div id='page-content-wrapper'>
 		 <div class='container-fluid'>
 			 <div class='row'>
@@ -22,8 +20,12 @@
 					 <a class='btn btn-default' href='#menu-toggle' id='menu-toggle'>
 						 <i class='fa fa-arrows-h'></i></a>
 								<a class='pull-right btn btn-default btn-top' href='/addTest'>Add New Test Scores for students</a>
+							</div>
+					</div>
+					<div class='row'>
+						 <div class='col-lg-12'>
 					 <h1 class='text-center' style='color:grey'>Test Statistics</h1>
-					 <p style='color:grey'>You can add score for individual student by visting Edit/Add button</p>
+					 <p style='color:grey' class='pull-right'>You can add score for individual student by visting Edit/Add button</p>
 					 <table class='testTable table table-striped' id='testDT'>
 						 <thead>
 							 <tr>
@@ -45,8 +47,6 @@
 					 </table>
 				 </div>
 			 </div><!-- Modal -->
-
-
 			 <div aria-hidden='true' aria-labelledby='myModalLabel' class='modal fade' id='statChart' role='dialog' tabindex='-1'>
 				 <div class='modal-dialog'>
 					 <div class='modal-content'>
@@ -66,8 +66,6 @@
 					 </div>
 				 </div>
 			 </div>
-
-
 					 <div class='modal fade' id='testEditModal' role='dialog'>
 						 <div class='modal-dialog'>
 							 <div class='modal-content'>
@@ -82,8 +80,7 @@
 												 <th scope='col'>Student Name</th>
 												 <th scope='col'>Score</th>
 												 <th scope='col'>Edit/Add</th>
-												 <th scope='col'>Edit/Add</th>
-
+												 <th scope='col'>Delete</th>
 											 </tr>
 										 </thead>
 									 </table>
@@ -97,11 +94,6 @@
 				 </div>
 			 </div>
 		 </div>
-
-
-
-
-
 			 <script src='/js/jquery.min.js'>
 			 </script>
 			 <script src='/js/bootstrap.min.js'>

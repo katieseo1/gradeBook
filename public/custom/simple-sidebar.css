@@ -97,7 +97,7 @@ h1 {
 }
 @media(min-width:768px) {
   h1 {
-    margin-bottom: 10px;
+    margin-bottom: 25px;
   }
   #wrapper {
     padding-left: 250px;

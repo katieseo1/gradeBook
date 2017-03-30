@@ -108,6 +108,7 @@ function progressChart (id) {
     url: 'getGrade/' + id,
     method: 'GET',
     success: function (data) {
+      console.log(data)
       document.getElementById('studentProgressLabel').innerHTML = 'Progress Information for ' + data.user.firstname + ' ' + data.user.lastname
       drawGradeChart(data.user.grades)
     }

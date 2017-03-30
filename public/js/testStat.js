@@ -203,4 +203,7 @@ $(function () {
   handleScoreEdit()
   handleTestChart()
   handleTestEdit(editTestTable)
+  $('#testEditModal').on('hidden.bs.modal', function () {
+ location.reload();
+})
 })

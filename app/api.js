@@ -189,11 +189,11 @@ module.exports = function (app) {
 		.findById(req.params.id)
 		.exec()
 		.then(user => {
-      console.log(req.body)
   origScore = user.local.grades
+  console.log('=======OrigScore')
+  console.log(origScore)
   //new student
   if(origScore.length===0){
-    console.log("new User")
     origScore=[{'testNumber':testNum,'testScore':testScore}]
   }
   //updating an existing student score
@@ -206,7 +206,7 @@ module.exports = function (app) {
     }
     //exisitng student with no test score
     if(index===null){
-      origScore=[{'testNumber':testNum,'testScore':testScore}]
+      origScore.push({'testNumber':testNum,'testScore':testScore})
     }
   }
   //no test number
