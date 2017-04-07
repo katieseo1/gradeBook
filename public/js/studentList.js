@@ -108,7 +108,6 @@ function progressChart (id) {
     url: 'getGrade/' + id,
     method: 'GET',
     success: function (data) {
-      console.log(data)
       document.getElementById('studentProgressLabel').innerHTML = 'Progress Information for ' + data.user.firstname + ' ' + data.user.lastname
       drawGradeChart(data.user.grades)
     }
@@ -119,6 +118,10 @@ function drawGradeChart (studentGrade) {
   google.charts.load('current', {
     'packages': ['corechart']
   })
+
+  studentGrade.sort(function(a, b) {
+    return parseInt(a.testNumber) - parseInt(b.testNumber);
+  });
   google.charts.setOnLoadCallback(drawChart)
 
   function drawChart () {
